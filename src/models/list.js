@@ -1,3 +1,4 @@
+// @flow
 import { queryFakeList } from '../services/api'
 
 export default {

@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent } from 'react'
 import G2 from 'g2'
 import Debounce from 'lodash-decorators/debounce'

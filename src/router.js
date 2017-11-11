@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import { Router, Route, Switch, Redirect } from 'dva/router'
 import { LocaleProvider } from 'antd'

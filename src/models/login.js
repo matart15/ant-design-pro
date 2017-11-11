@@ -1,3 +1,4 @@
+// @flow
 import { routerRedux } from 'dva/router'
 import { fakeAccountLogin, fakeMobileLogin } from '../services/api'
 

@@ -1,3 +1,4 @@
+// @flow
 import { queryBasicProfile, queryAdvancedProfile } from '../services/api'
 
 export default {

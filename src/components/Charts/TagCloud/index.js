@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import G2 from 'g2'

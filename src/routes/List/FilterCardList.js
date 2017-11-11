@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent } from 'react'
 import numeral from 'numeral'
 import { connect } from 'dva'

@@ -1,3 +1,4 @@
+// @flow
 /* eslint eqeqeq: 0 */
 
 function equal(old, target) {

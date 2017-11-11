@@ -1,3 +1,4 @@
+// @flow
 import fetch from 'dva/fetch'
 import { notification } from 'antd'
 

@@ -1,3 +1,4 @@
+// @flow
 import numeral from 'numeral'
 
 export { default as ChartCard } from './ChartCard'

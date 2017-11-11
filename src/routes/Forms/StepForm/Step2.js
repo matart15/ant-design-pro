@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import { Form, Input, Button, Alert, Divider } from 'antd'
 import { routerRedux } from 'dva/router'

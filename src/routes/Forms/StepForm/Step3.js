@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import { Button, Row, Col } from 'antd'
 import { routerRedux } from 'dva/router'

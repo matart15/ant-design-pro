@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import { Button, Icon, Card } from 'antd'
 import Result from '../../components/Result'

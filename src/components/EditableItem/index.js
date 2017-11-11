@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent } from 'react'
 import { Input, Icon } from 'antd'
 import styles from './index.less'

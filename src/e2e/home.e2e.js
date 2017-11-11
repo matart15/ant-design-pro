@@ -1,3 +1,4 @@
+// @flow
 import Nightmare from 'nightmare'
 
 describe('Homepage', () => {

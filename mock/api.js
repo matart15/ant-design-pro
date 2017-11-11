@@ -1,3 +1,4 @@
+// @flow
 import { getUrlParams } from './utils'
 
 const titles = [
@@ -112,6 +113,7 @@ export function getFakeList(req, res, u) {
   } else {
     return result
   }
+  return []
 }
 
 export const getNotice = [

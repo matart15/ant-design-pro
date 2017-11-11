@@ -1,3 +1,4 @@
+// @flow
 const config = {
   403: {
     img: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',

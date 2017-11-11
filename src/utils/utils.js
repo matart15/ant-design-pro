@@ -1,3 +1,4 @@
+// @flow
 import moment from 'moment'
 import cloneDeep from 'lodash/cloneDeep'
 import navData from '../common/nav'

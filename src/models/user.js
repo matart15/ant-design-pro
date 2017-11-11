@@ -1,3 +1,4 @@
+// @flow
 import { query as queryUsers, queryCurrent } from '../services/user'
 
 export default {

@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Layout, Menu, Icon, Avatar, Dropdown, Tag, message, Spin } from 'antd'

@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent } from 'react'
 import moment from 'moment'
 import { Table, Alert, Badge } from 'antd'

@@ -1,3 +1,4 @@
+// @flow
 import DescriptionList from './DescriptionList'
 import Description from './Description'
 

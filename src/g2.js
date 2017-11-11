@@ -1,3 +1,4 @@
+// @flow
 // 全局 G2 设置
 import G2 from 'g2'
 

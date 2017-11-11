@@ -1,3 +1,4 @@
+// @flow
 const { spawn } = require('child_process')
 const { kill } = require('cross-port-killer')
 

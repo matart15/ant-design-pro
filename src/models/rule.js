@@ -1,3 +1,4 @@
+// @flow
 import { queryRule, removeRule, addRule } from '../services/api'
 
 export default {

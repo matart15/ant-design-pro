@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent } from 'react'
 import { Popover, Icon, Tabs, Badge, Spin } from 'antd'
 import classNames from 'classnames'

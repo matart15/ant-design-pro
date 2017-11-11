@@ -1,3 +1,4 @@
+// @flow
 // Use require.context to require reducers automatically
 // Ref: https://webpack.github.io/docs/context.html
 const context = require.context('./', false, /\.js$/)

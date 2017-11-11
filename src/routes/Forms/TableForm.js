@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent } from 'react'
 import { Table, Button, Input, message, Popconfirm, Divider } from 'antd'
 import styles from './style.less'

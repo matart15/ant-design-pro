@@ -1,3 +1,4 @@
+// @flow
 export default {
   1: { xs: 24 },
   2: { xs: 24, sm: 12 },

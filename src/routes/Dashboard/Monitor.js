@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent } from 'react'
 import { connect } from 'dva'
 import { Row, Col, Card, Tooltip } from 'antd'

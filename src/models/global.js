@@ -1,3 +1,4 @@
+// @flow
 import { queryNotices } from '../services/api'
 
 export default {

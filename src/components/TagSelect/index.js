@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react'
 import classNames from 'classnames'
 import { Tag, Icon } from 'antd'

@@ -1,3 +1,4 @@
+// @flow
 import BasicLayout from '../layouts/BasicLayout'
 import UserLayout from '../layouts/UserLayout'
 import BlankLayout from '../layouts/BlankLayout'

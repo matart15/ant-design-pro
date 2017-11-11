@@ -1,3 +1,4 @@
+// @flow
 import { fakeChartData } from '../services/api'
 
 export default {

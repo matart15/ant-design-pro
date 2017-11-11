@@ -75,6 +75,7 @@ export function getRule(req, res, u) {
   } else {
     return result
   }
+  return {}
 }
 
 export function postRule(req, res, u, b) {
@@ -129,6 +130,7 @@ export function postRule(req, res, u, b) {
   } else {
     return result
   }
+  return {}
 }
 
 export default {

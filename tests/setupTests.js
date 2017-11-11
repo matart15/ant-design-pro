@@ -1,3 +1,4 @@
+// @flow
 /* eslint-disable import/first */
 import '../src/polyfill'
 import { jsdom } from 'jsdom'
