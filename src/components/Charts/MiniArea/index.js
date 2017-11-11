@@ -1,46 +1,53 @@
-import React, { PureComponent } from 'react';
-import G2 from 'g2';
-import equal from '../equal';
-import styles from '../index.less';
+import React, { PureComponent } from 'react'
+import G2 from 'g2'
+import equal from '../equal'
+import styles from '../index.less'
 
 class MiniArea extends PureComponent {
   static defaultProps = {
     borderColor: '#1890FF',
-    color: 'rgba(24, 144, 255, 0.2)',
-  };
+    color: 'rgba(24, 144, 255, 0.2)'
+  }
 
   componentDidMount() {
-    this.renderChart(this.props.data);
+    this.renderChart(this.props.data)
   }
 
   componentWillReceiveProps(nextProps) {
     if (!equal(this.props, nextProps)) {
-      this.renderChart(nextProps.data);
+      this.renderChart(nextProps.data)
     }
   }
 
   componentWillUnmount() {
     if (this.chart) {
-      this.chart.destroy();
+      this.chart.destroy()
     }
   }
 
-  handleRef = (n) => {
-    this.node = n;
+  handleRef = n => {
+    this.node = n
   }
 
   renderChart(data) {
     const {
-      height = 0, fit = true, color, borderWidth = 2, line, xAxis, yAxis, animate = true,
-    } = this.props;
-    const borderColor = this.props.borderColor || color;
+      height = 0,
+      fit = true,
+      color,
+      borderWidth = 2,
+      line,
+      xAxis,
+      yAxis,
+      animate = true
+    } = this.props
+    const borderColor = this.props.borderColor || color
 
     if (!data || (data && data.length < 1)) {
-      return;
+      return
     }
 
     // clean
-    this.node.innerHTML = '';
+    this.node.innerHTML = ''
 
     const chart = new G2.Chart({
       container: this.node,
@@ -48,38 +55,38 @@ class MiniArea extends PureComponent {
       height: height + 54,
       animate,
       plotCfg: {
-        margin: [36, 5, 30, 5],
+        margin: [36, 5, 30, 5]
       },
-      legend: null,
-    });
+      legend: null
+    })
 
     if (!xAxis && !yAxis) {
-      chart.axis(false);
+      chart.axis(false)
     }
 
     if (xAxis) {
-      chart.axis('x', xAxis);
+      chart.axis('x', xAxis)
     } else {
-      chart.axis('x', false);
+      chart.axis('x', false)
     }
 
     if (yAxis) {
-      chart.axis('y', yAxis);
+      chart.axis('y', yAxis)
     } else {
-      chart.axis('y', false);
+      chart.axis('y', false)
     }
 
     const dataConfig = {
       x: {
         type: 'cat',
         range: [0, 1],
-        ...xAxis,
+        ...xAxis
       },
       y: {
         min: 0,
-        ...yAxis,
-      },
-    };
+        ...yAxis
+      }
+    }
 
     chart.tooltip({
       title: null,
@@ -87,30 +94,38 @@ class MiniArea extends PureComponent {
       map: {
         title: null,
         name: 'x',
-        value: 'y',
-      },
-    });
+        value: 'y'
+      }
+    })
 
-    const view = chart.createView();
-    view.source(data, dataConfig);
+    const view = chart.createView()
+    view.source(data, dataConfig)
 
-    view.area().position('x*y').color(color).shape('smooth')
-      .style({ fillOpacity: 1 });
+    view
+      .area()
+      .position('x*y')
+      .color(color)
+      .shape('smooth')
+      .style({ fillOpacity: 1 })
 
     if (line) {
-      const view2 = chart.createView();
-      view2.source(data, dataConfig);
-      view2.line().position('x*y').color(borderColor).size(borderWidth)
-        .shape('smooth');
-      view2.tooltip(false);
+      const view2 = chart.createView()
+      view2.source(data, dataConfig)
+      view2
+        .line()
+        .position('x*y')
+        .color(borderColor)
+        .size(borderWidth)
+        .shape('smooth')
+      view2.tooltip(false)
     }
-    chart.render();
+    chart.render()
 
-    this.chart = chart;
+    this.chart = chart
   }
 
   render() {
-    const { height } = this.props;
+    const { height } = this.props
 
     return (
       <div className={styles.miniChart} style={{ height }}>
@@ -118,8 +133,8 @@ class MiniArea extends PureComponent {
           <div ref={this.handleRef} />
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default MiniArea;
+export default MiniArea

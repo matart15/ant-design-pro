@@ -1,105 +1,107 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 function fixedZero(val) {
-  return val * 1 < 10 ? `0${val}` : val;
+  return val * 1 < 10 ? `0${val}` : val
 }
 
 class CountDown extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    const { lastTime } = this.initTime(props);
+    const { lastTime } = this.initTime(props)
 
     this.state = {
-      lastTime,
-    };
+      lastTime
+    }
   }
 
   componentDidMount() {
-    this.tick();
+    this.tick()
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.target !== nextProps.target) {
-      const { lastTime } = this.initTime(nextProps);
+      const { lastTime } = this.initTime(nextProps)
       this.setState({
-        lastTime,
-      });
+        lastTime
+      })
     }
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timer);
+    clearTimeout(this.timer)
   }
 
-  timer = 0;
-  interval = 1000;
-  initTime = (props) => {
-    let lastTime = 0;
-    let targetTime = 0;
+  timer = 0
+  interval = 1000
+  initTime = props => {
+    let lastTime = 0
+    let targetTime = 0
     try {
       if (Object.prototype.toString.call(props.target) === '[object Date]') {
-        targetTime = props.target.getTime();
+        targetTime = props.target.getTime()
       } else {
-        targetTime = new Date(props.target).getTime();
+        targetTime = new Date(props.target).getTime()
       }
     } catch (e) {
-      throw new Error('invalid target prop', e);
+      throw new Error('invalid target prop', e)
     }
 
-    lastTime = targetTime - new Date().getTime();
+    lastTime = targetTime - new Date().getTime()
 
     return {
-      lastTime,
-    };
+      lastTime
+    }
   }
   // defaultFormat = time => (
   //  <span>{moment(time).format('hh:mm:ss')}</span>
   // );
-  defaultFormat = (time) => {
-    const hours = 60 * 60 * 1000;
-    const minutes = 60 * 1000;
+  defaultFormat = time => {
+    const hours = 60 * 60 * 1000
+    const minutes = 60 * 1000
 
-    const h = fixedZero(Math.floor(time / hours));
-    const m = fixedZero(Math.floor((time - (h * hours)) / minutes));
-    const s = fixedZero(Math.floor((time - (h * hours) - (m * minutes)) / 1000));
+    const h = fixedZero(Math.floor(time / hours))
+    const m = fixedZero(Math.floor((time - h * hours) / minutes))
+    const s = fixedZero(Math.floor((time - h * hours - m * minutes) / 1000))
     return (
-      <span>{h}:{m}:{s}</span>
-    );
+      <span>
+        {h}:{m}:{s}
+      </span>
+    )
   }
   tick = () => {
-    const { onEnd } = this.props;
-    let { lastTime } = this.state;
+    const { onEnd } = this.props
+    let { lastTime } = this.state
 
     this.timer = setTimeout(() => {
       if (lastTime < this.interval) {
-        clearTimeout(this.timer);
+        clearTimeout(this.timer)
         this.setState({
-          lastTime: 0,
-        });
+          lastTime: 0
+        })
 
         if (onEnd) {
-          onEnd();
+          onEnd()
         }
       } else {
-        lastTime -= this.interval;
+        lastTime -= this.interval
         this.setState({
-          lastTime,
-        });
+          lastTime
+        })
 
-        this.tick();
+        this.tick()
       }
-    }, this.interval);
+    }, this.interval)
   }
 
   render() {
-    const { format = this.defaultFormat, ...rest } = this.props;
-    const { lastTime } = this.state;
+    const { format = this.defaultFormat, ...rest } = this.props
+    const { lastTime } = this.state
 
-    const result = format(lastTime);
+    const result = format(lastTime)
 
-    return (<span {...rest}>{result}</span>);
+    return <span {...rest}>{result}</span>
   }
 }
 
-export default CountDown;
+export default CountDown

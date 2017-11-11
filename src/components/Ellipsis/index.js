@@ -1,134 +1,145 @@
-import React, { Component } from 'react';
-import { Tooltip } from 'antd';
-import classNames from 'classnames';
-import styles from './index.less';
+import React, { Component } from 'react'
+import { Tooltip } from 'antd'
+import classNames from 'classnames'
+import styles from './index.less'
 
 /* eslint react/no-did-mount-set-state: 0 */
 /* eslint no-param-reassign: 0 */
 
 const EllipsisText = ({ text, length, tooltip, ...other }) => {
   if (typeof text !== 'string') {
-    throw new Error('Ellipsis children must be string.');
+    throw new Error('Ellipsis children must be string.')
   }
   if (text.length <= length || length < 0) {
-    return <span {...other}>{text}</span>;
+    return <span {...other}>{text}</span>
   }
-  const tail = '...';
-  let displayText;
+  const tail = '...'
+  let displayText
   if (length - tail.length <= 0) {
-    displayText = '';
+    displayText = ''
   } else {
-    displayText = text.slice(0, (length - tail.length));
+    displayText = text.slice(0, length - tail.length)
   }
 
   if (tooltip) {
-    return <span>{displayText}<Tooltip title={text}>{tail}</Tooltip></span>;
+    return (
+      <span>
+        {displayText}
+        <Tooltip title={text}>{tail}</Tooltip>
+      </span>
+    )
   }
 
   return (
     <span {...other}>
-      {displayText}{tail}
+      {displayText}
+      {tail}
     </span>
-  );
-};
+  )
+}
 
 export default class Ellipsis extends Component {
   state = {
     lineHeight: 0,
     text: '',
-    targetCount: 0,
+    targetCount: 0
   }
 
   componentDidMount() {
-    const { lines, cover } = this.props;
+    const { lines, cover } = this.props
     if (this.node) {
       if (lines && cover) {
         this.setState({
-          lineHeight: parseInt(window.getComputedStyle(this.node).lineHeight, 10),
-        });
+          lineHeight: parseInt(
+            window.getComputedStyle(this.node).lineHeight,
+            10
+          )
+        })
       }
-      this.computeLine();
+      this.computeLine()
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.lines !== nextProps.lines || this.props.cover !== nextProps.cover) {
+    if (
+      this.props.lines !== nextProps.lines ||
+      this.props.cover !== nextProps.cover
+    ) {
       this.setState({
-        lineHeight: parseInt(window.getComputedStyle(this.node).lineHeight, 10),
-      });
-      this.computeLine();
+        lineHeight: parseInt(window.getComputedStyle(this.node).lineHeight, 10)
+      })
+      this.computeLine()
     }
   }
 
   computeLine = () => {
-    const { lines, cover } = this.props;
+    const { lines, cover } = this.props
     if (lines && !cover) {
-      const fontSize = parseInt(window.getComputedStyle(this.node).fontSize, 10) || 14;
-      const text = this.shadowChildren.innerText;
-      const targetWidth = (this.node.offsetWidth || this.node.parentNode.offsetWidth) * lines;
-      const shadowNode = this.shadow.firstChild;
+      const fontSize =
+        parseInt(window.getComputedStyle(this.node).fontSize, 10) || 14
+      const text = this.shadowChildren.innerText
+      const targetWidth =
+        (this.node.offsetWidth || this.node.parentNode.offsetWidth) * lines
+      const shadowNode = this.shadow.firstChild
 
       // bisection
-      const tw = (targetWidth - (lines * (fontSize / 2)) - fontSize);
-      const len = text.length;
-      const mid = Math.floor(len / 2);
+      const tw = targetWidth - lines * (fontSize / 2) - fontSize
+      const len = text.length
+      const mid = Math.floor(len / 2)
 
-      const count = this.bisection(tw, mid, 0, len, text, shadowNode);
+      const count = this.bisection(tw, mid, 0, len, text, shadowNode)
 
       this.setState({
         text,
-        targetCount: count,
-      });
+        targetCount: count
+      })
     }
   }
 
   bisection = (tw, m, b, e, text, shadowNode) => {
-    let mid = m;
-    let end = e;
-    let begin = b;
-    shadowNode.innerHTML = text.substring(0, mid);
-    let sw = shadowNode.offsetWidth;
+    let mid = m
+    let end = e
+    let begin = b
+    shadowNode.innerHTML = text.substring(0, mid)
+    let sw = shadowNode.offsetWidth
 
     if (sw < tw) {
-      shadowNode.innerHTML = text.substring(0, mid + 1);
-      sw = shadowNode.offsetWidth;
+      shadowNode.innerHTML = text.substring(0, mid + 1)
+      sw = shadowNode.offsetWidth
       if (sw >= tw) {
-        return mid;
-      } else {
-        begin = mid;
-        mid = Math.floor((end - begin) / 2) + begin;
-        return this.bisection(tw, mid, begin, end, text, shadowNode);
+        return mid
       }
-    } else {
-      if (mid - 1 < 0) {
-        return mid;
-      }
-      shadowNode.innerHTML = text.substring(0, mid - 1);
-      sw = shadowNode.offsetWidth;
-      if (sw <= tw) {
-        return mid;
-      } else {
-        end = mid;
-        mid = Math.floor((end - begin) / 2) + begin;
-        return this.bisection(tw, mid, begin, end, text, shadowNode);
-      }
+      begin = mid
+      mid = Math.floor((end - begin) / 2) + begin
+      return this.bisection(tw, mid, begin, end, text, shadowNode)
     }
+    if (mid - 1 < 0) {
+      return mid
+    }
+    shadowNode.innerHTML = text.substring(0, mid - 1)
+    sw = shadowNode.offsetWidth
+    if (sw <= tw) {
+      return mid
+    }
+    end = mid
+    mid = Math.floor((end - begin) / 2) + begin
+    return this.bisection(tw, mid, begin, end, text, shadowNode)
   }
 
-  handleRef = (n) => {
-    this.node = n;
+  handleRef = n => {
+    this.node = n
   }
 
-  handleShadow = (n) => {
-    this.shadow = n;
+  handleShadow = n => {
+    this.shadow = n
   }
 
-  handleShadowChildren = (n) => {
-    this.shadowChildren = n;
+  handleShadowChildren = n => {
+    this.shadowChildren = n
   }
 
   render() {
-    const { text, targetCount, lineHeight } = this.state;
+    const { text, targetCount, lineHeight } = this.state
     const {
       children,
       lines,
@@ -139,26 +150,42 @@ export default class Ellipsis extends Component {
       className,
       tooltip,
       ...restProps
-    } = this.props;
+    } = this.props
 
     const cls = classNames(styles.ellipsis, className, {
-      [styles.lines]: (lines && !cover),
-      [styles.linesCover]: (lines && cover),
-    });
+      [styles.lines]: lines && !cover,
+      [styles.linesCover]: lines && cover
+    })
 
     if (!lines && !length) {
-      return (<span className={cls} {...restProps}>{children}</span>);
+      return (
+        <span className={cls} {...restProps}>
+          {children}
+        </span>
+      )
     }
 
     // length
     if (!lines) {
-      return (<EllipsisText className={cls} length={length} text={children || ''} tooltip={tooltip} {...restProps} />);
+      return (
+        <EllipsisText
+          className={cls}
+          length={length}
+          text={children || ''}
+          tooltip={tooltip}
+          {...restProps}
+        />
+      )
     }
 
     // lines cover
     if (cover) {
-      const id = `antd-pro-ellipsis-${`${new Date().getTime()}${Math.floor(Math.random() * 100)}`}`;
-      const style = `#${id}:before{background-color:${suffixColor};padding-left:${suffixOffset}px;}`;
+      const id = `antd-pro-ellipsis-${`${new Date().getTime()}${Math.floor(
+        Math.random() * 100
+      )}`}`
+      const style = `#${id}:before{background-color:${
+        suffixColor
+      };padding-left:${suffixOffset}px;}`
       return (
         <div
           {...restProps}
@@ -166,34 +193,29 @@ export default class Ellipsis extends Component {
           ref={this.handleRef}
           className={cls}
           style={{
-          ...restProps.style,
-          maxHeight: `${lines * lineHeight}px`,
-        }}
-        >
+            ...restProps.style,
+            maxHeight: `${lines * lineHeight}px`
+          }}>
           <style>{style}</style>
           {children}
         </div>
-      );
+      )
     }
 
     // lines no cover
-    const suffix = tooltip ? <Tooltip title={text}>...</Tooltip> : '...';
+    const suffix = tooltip ? <Tooltip title={text}>...</Tooltip> : '...'
 
     return (
-      <div
-        {...restProps}
-        ref={this.handleRef}
-        className={cls}
-      >
-        {
-          (targetCount > 0) && text.substring(0, targetCount)
-        }
-        {
-          (targetCount > 0) && (targetCount < text.length) && suffix
-        }
-        <div className={styles.shadow} ref={this.handleShadowChildren}>{children}</div>
-        <div className={styles.shadow} ref={this.handleShadow}><span>{text}</span></div>
+      <div {...restProps} ref={this.handleRef} className={cls}>
+        {targetCount > 0 && text.substring(0, targetCount)}
+        {targetCount > 0 && targetCount < text.length && suffix}
+        <div className={styles.shadow} ref={this.handleShadowChildren}>
+          {children}
+        </div>
+        <div className={styles.shadow} ref={this.handleShadow}>
+          <span>{text}</span>
+        </div>
       </div>
-    );
+    )
   }
 }

@@ -1,31 +1,48 @@
-import React from 'react';
-import { Button, Row, Col, Icon, Steps, Card } from 'antd';
-import Result from '../../components/Result';
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import React from 'react'
+import { Button, Row, Col, Icon, Steps, Card } from 'antd'
+import Result from '../../components/Result'
+import PageHeaderLayout from '../../layouts/PageHeaderLayout'
 
-const { Step } = Steps;
+const { Step } = Steps
 
 const desc1 = (
-  <div style={{ fontSize: 12, color: 'rgba(0, 0, 0, 0.45)', position: 'relative', left: 42 }}>
+  <div
+    style={{
+      fontSize: 12,
+      color: 'rgba(0, 0, 0, 0.45)',
+      position: 'relative',
+      left: 42
+    }}>
     <div style={{ margin: '8px 0 4px' }}>
       曲丽丽<Icon style={{ marginLeft: 8 }} type="dingding-o" />
     </div>
     <div>2016-12-12 12:32</div>
   </div>
-);
+)
 
 const desc2 = (
   <div style={{ fontSize: 12, position: 'relative', left: 42 }}>
     <div style={{ margin: '8px 0 4px' }}>
-      周毛毛<Icon type="dingding-o" style={{ color: '#00A0E9', marginLeft: 8 }} />
+      周毛毛<Icon
+        type="dingding-o"
+        style={{ color: '#00A0E9', marginLeft: 8 }}
+      />
     </div>
-    <div><a href="">催一下</a></div>
+    <div>
+      <a href="">催一下</a>
+    </div>
   </div>
-);
+)
 
 const extra = (
   <div>
-    <div style={{ fontSize: 16, color: 'rgba(0, 0, 0, 0.85)', fontWeight: '500', marginBottom: 20 }}>
+    <div
+      style={{
+        fontSize: 16,
+        color: 'rgba(0, 0, 0, 0.85)',
+        fontWeight: '500',
+        marginBottom: 20
+      }}>
       项目名称
     </div>
     <Row style={{ marginBottom: 16 }}>
@@ -42,14 +59,23 @@ const extra = (
         2016-12-12 ~ 2017-12-12
       </Col>
     </Row>
-    <Steps style={{ marginLeft: -42, width: 'calc(100% + 84px)' }} progressDot current={1}>
-      <Step title={<span style={{ fontSize: 14 }}>创建项目</span>} description={desc1} />
-      <Step title={<span style={{ fontSize: 14 }}>部门初审</span>} description={desc2} />
+    <Steps
+      style={{ marginLeft: -42, width: 'calc(100% + 84px)' }}
+      progressDot
+      current={1}>
+      <Step
+        title={<span style={{ fontSize: 14 }}>创建项目</span>}
+        description={desc1}
+      />
+      <Step
+        title={<span style={{ fontSize: 14 }}>部门初审</span>}
+        description={desc2}
+      />
       <Step title={<span style={{ fontSize: 14 }}>财务复核</span>} />
       <Step title={<span style={{ fontSize: 14 }}>完成</span>} />
     </Steps>
   </div>
-);
+)
 
 const actions = (
   <div>
@@ -57,7 +83,7 @@ const actions = (
     <Button>查看项目</Button>
     <Button>打 印</Button>
   </div>
-);
+)
 
 export default () => (
   <PageHeaderLayout>
@@ -75,4 +101,4 @@ export default () => (
       />
     </Card>
   </PageHeaderLayout>
-);
+)

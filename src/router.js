@@ -1,9 +1,9 @@
-import React from 'react';
-import { Router, Route, Switch, Redirect } from 'dva/router';
-import { LocaleProvider } from 'antd';
-import zhCN from 'antd/lib/locale-provider/zh_CN';
-import BasicLayout from './layouts/BasicLayout';
-import UserLayout from './layouts/UserLayout';
+import React from 'react'
+import { Router, Route, Switch, Redirect } from 'dva/router'
+import { LocaleProvider } from 'antd'
+import zhCN from 'antd/lib/locale-provider/zh_CN'
+import BasicLayout from './layouts/BasicLayout'
+import UserLayout from './layouts/UserLayout'
 
 function RouterConfig({ history }) {
   return (
@@ -16,7 +16,7 @@ function RouterConfig({ history }) {
         </Switch>
       </Router>
     </LocaleProvider>
-  );
+  )
 }
 
-export default RouterConfig;
+export default RouterConfig

@@ -1,112 +1,114 @@
-import React, { PureComponent } from 'react';
-import moment from 'moment';
-import { connect } from 'dva';
-import { Link } from 'dva/router';
-import { Row, Col, Card, List, Avatar } from 'antd';
+import React, { PureComponent } from 'react'
+import moment from 'moment'
+import { connect } from 'dva'
+import { Link } from 'dva/router'
+import { Row, Col, Card, List, Avatar } from 'antd'
 
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import EditableLinkGroup from '../../components/EditableLinkGroup';
-import { Radar } from '../../components/Charts';
+import PageHeaderLayout from '../../layouts/PageHeaderLayout'
+import EditableLinkGroup from '../../components/EditableLinkGroup'
+import { Radar } from '../../components/Charts'
 
-import styles from './Workplace.less';
+import styles from './Workplace.less'
 
 const links = [
   {
     title: '操作一',
-    href: '',
+    href: ''
   },
   {
     title: '操作二',
-    href: '',
+    href: ''
   },
   {
     title: '操作三',
-    href: '',
+    href: ''
   },
   {
     title: '操作四',
-    href: '',
+    href: ''
   },
   {
     title: '操作五',
-    href: '',
+    href: ''
   },
   {
     title: '操作六',
-    href: '',
-  },
-];
+    href: ''
+  }
+]
 
 const members = [
   {
     id: 'members-1',
     title: '科学搬砖组',
     logo: 'https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png',
-    link: '',
+    link: ''
   },
   {
     id: 'members-2',
     title: '程序员日常',
     logo: 'https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png',
-    link: '',
+    link: ''
   },
   {
     id: 'members-3',
     title: '设计天团',
     logo: 'https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png',
-    link: '',
+    link: ''
   },
   {
     id: 'members-4',
     title: '中二少女团',
     logo: 'https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png',
-    link: '',
+    link: ''
   },
   {
     id: 'members-5',
     title: '骗你学计算机',
     logo: 'https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png',
-    link: '',
-  },
-];
+    link: ''
+  }
+]
 
 @connect(state => ({
   project: state.project,
   activities: state.activities,
-  chart: state.chart,
+  chart: state.chart
 }))
 export default class Workplace extends PureComponent {
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch } = this.props
     dispatch({
-      type: 'project/fetchNotice',
-    });
+      type: 'project/fetchNotice'
+    })
     dispatch({
-      type: 'activities/fetchList',
-    });
+      type: 'activities/fetchList'
+    })
     dispatch({
-      type: 'chart/fetch',
-    });
+      type: 'chart/fetch'
+    })
   }
 
   componentWillUnmount() {
-    const { dispatch } = this.props;
+    const { dispatch } = this.props
     dispatch({
-      type: 'chart/clear',
-    });
+      type: 'chart/clear'
+    })
   }
 
   renderActivities() {
-    const {
-      activities: { list },
-    } = this.props;
-    return list.map((item) => {
-      const events = item.template.split(/@\{([^{}]*)\}/gi).map((key) => {
+    const { activities: { list } } = this.props
+    return list.map(item => {
+      const events = item.template.split(/@\{([^{}]*)\}/gi).map(key => {
         if (item[key]) {
-          return <a href={item[key].link} key={item[key].name}>{item[key].name}</a>;
+          return (
+            <a href={item[key].link} key={item[key].name}>
+              {item[key].name}
+            </a>
+          )
         }
-        return key;
-      });
+        return key
+      })
       return (
         <List.Item key={item.id}>
           <List.Item.Meta
@@ -125,28 +127,31 @@ export default class Workplace extends PureComponent {
             }
           />
         </List.Item>
-      );
-    });
+      )
+    })
   }
 
   render() {
     const {
       project: { loading: projectLoading, notice },
       activities: { loading: activitiesLoading },
-      chart: { radarData },
-    } = this.props;
+      chart: { radarData }
+    } = this.props
 
     const pageHeaderContent = (
       <div className={styles.pageHeaderContent}>
         <div className={styles.avatar}>
-          <Avatar size="large" src="https://gw.alipayobjects.com/zos/rmsportal/lctvVCLfRpYCkYxAsiVQ.png" />
+          <Avatar
+            size="large"
+            src="https://gw.alipayobjects.com/zos/rmsportal/lctvVCLfRpYCkYxAsiVQ.png"
+          />
         </div>
         <div className={styles.content}>
           <p className={styles.contentTitle}>早安，曲丽丽，祝你开心每一天！</p>
           <p>交互专家 | 蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED</p>
         </div>
       </div>
-    );
+    )
 
     const pageHeaderExtra = (
       <div className={styles.pageHeaderExtra}>
@@ -156,20 +161,21 @@ export default class Workplace extends PureComponent {
         </div>
         <div>
           <p>团队内排名</p>
-          <p>8<span> / 24</span></p>
+          <p>
+            8<span> / 24</span>
+          </p>
         </div>
         <div>
           <p>项目访问</p>
           <p>2,223</p>
         </div>
       </div>
-    );
+    )
 
     return (
       <PageHeaderLayout
         content={pageHeaderContent}
-        extraContent={pageHeaderExtra}
-      >
+        extraContent={pageHeaderExtra}>
         <Row gutter={24}>
           <Col xl={16} lg={24} md={24} sm={24} xs={24}>
             <Card
@@ -179,41 +185,39 @@ export default class Workplace extends PureComponent {
               bordered={false}
               extra={<Link to="/">全部项目</Link>}
               loading={projectLoading}
-              bodyStyle={{ padding: 0 }}
-            >
-              {
-                notice.map(item => (
-                  <Card.Grid className={styles.projectGrid} key={item.id}>
-                    <Card bodyStyle={{ padding: 0 }} bordered={false}>
-                      <Card.Meta
-                        title={(
-                          <div className={styles.cardTitle}>
-                            <Avatar size="small" src={item.logo} />
-                            <Link to={item.href}>{item.title}</Link>
-                          </div>
-                        )}
-                        description={item.description}
-                      />
-                      <div className={styles.projectItemContent}>
-                        <Link to={item.memberLink}>{item.member || ''}</Link>
-                        {item.updatedAt && (
-                          <span className={styles.datetime} title={item.updatedAt}>
-                            {moment(item.updatedAt).fromNow()}
-                          </span>
-                        )}
-                      </div>
-                    </Card>
-                  </Card.Grid>
-                ))
-              }
+              bodyStyle={{ padding: 0 }}>
+              {notice.map(item => (
+                <Card.Grid className={styles.projectGrid} key={item.id}>
+                  <Card bodyStyle={{ padding: 0 }} bordered={false}>
+                    <Card.Meta
+                      title={
+                        <div className={styles.cardTitle}>
+                          <Avatar size="small" src={item.logo} />
+                          <Link to={item.href}>{item.title}</Link>
+                        </div>
+                      }
+                      description={item.description}
+                    />
+                    <div className={styles.projectItemContent}>
+                      <Link to={item.memberLink}>{item.member || ''}</Link>
+                      {item.updatedAt && (
+                        <span
+                          className={styles.datetime}
+                          title={item.updatedAt}>
+                          {moment(item.updatedAt).fromNow()}
+                        </span>
+                      )}
+                    </div>
+                  </Card>
+                </Card.Grid>
+              ))}
             </Card>
             <Card
               bodyStyle={{ padding: 0 }}
               bordered={false}
               className={styles.activeCard}
               title="动态"
-              loading={activitiesLoading}
-            >
+              loading={activitiesLoading}>
               <List loading={activitiesLoading} size="large">
                 <div className={styles.activitiesList}>
                   {this.renderActivities()}
@@ -226,8 +230,7 @@ export default class Workplace extends PureComponent {
               style={{ marginBottom: 24 }}
               title="快速开始 / 便捷导航"
               bordered={false}
-              bodyStyle={{ padding: 0 }}
-            >
+              bodyStyle={{ padding: 0 }}>
               <EditableLinkGroup
                 onAdd={() => {}}
                 links={links}
@@ -238,8 +241,7 @@ export default class Workplace extends PureComponent {
               style={{ marginBottom: 24 }}
               bordered={false}
               title="XX 指数"
-              loading={radarData.length === 0}
-            >
+              loading={radarData.length === 0}>
               <div className={styles.chart}>
                 <Radar hasLegend height={343} data={radarData} />
               </div>
@@ -247,26 +249,23 @@ export default class Workplace extends PureComponent {
             <Card
               bodyStyle={{ paddingTop: 12, paddingBottom: 12 }}
               bordered={false}
-              title="团队"
-            >
+              title="团队">
               <div className={styles.members}>
                 <Row gutter={48}>
-                  {
-                    members.map(item => (
-                      <Col span={12} key={`members-item-${item.id}`}>
-                        <Link to={item.link}>
-                          <Avatar src={item.logo} size="small" />
-                          <span className={styles.member}>{item.title}</span>
-                        </Link>
-                      </Col>
-                    ))
-                  }
+                  {members.map(item => (
+                    <Col span={12} key={`members-item-${item.id}`}>
+                      <Link to={item.link}>
+                        <Avatar src={item.logo} size="small" />
+                        <span className={styles.member}>{item.title}</span>
+                      </Link>
+                    </Col>
+                  ))}
                 </Row>
               </div>
             </Card>
           </Col>
         </Row>
       </PageHeaderLayout>
-    );
+    )
   }
 }

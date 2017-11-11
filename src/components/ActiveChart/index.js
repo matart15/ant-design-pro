@@ -1,51 +1,48 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from 'react'
 
-import { MiniArea } from '../Charts';
-import NumberInfo from '../NumberInfo';
+import { MiniArea } from '../Charts'
+import NumberInfo from '../NumberInfo'
 
-import styles from './index.less';
+import styles from './index.less'
 
 function fixedZero(val) {
-  return val * 1 < 10 ? `0${val}` : val;
+  return val * 1 < 10 ? `0${val}` : val
 }
 
 function getActiveData() {
-  const activeData = [];
+  const activeData = []
   for (let i = 0; i < 24; i += 1) {
     activeData.push({
       x: `${fixedZero(i)}:00`,
-      y: (i * 50) + (Math.floor(Math.random() * 200)),
-    });
+      y: i * 50 + Math.floor(Math.random() * 200)
+    })
   }
-  return activeData;
+  return activeData
 }
 
 export default class ActiveChart extends PureComponent {
   state = {
-    activeData: getActiveData(),
+    activeData: getActiveData()
   }
 
   componentDidMount() {
     this.timer = setInterval(() => {
       this.setState({
-        activeData: getActiveData(),
-      });
-    }, 1000);
+        activeData: getActiveData()
+      })
+    }, 1000)
   }
 
   componentWillUnmount() {
-    clearInterval(this.timer);
+    clearInterval(this.timer)
   }
 
   render() {
-    const { activeData = [] } = this.state;
+    const { activeData = [] } = this.state
 
     return (
       <div className={styles.activeChart}>
-        <NumberInfo
-          subTitle="目标评估"
-          total="有望达到预期"
-        />
+        <NumberInfo subTitle="目标评估" total="有望达到预期" />
         <div style={{ marginTop: 32 }}>
           <MiniArea
             animate={false}
@@ -57,29 +54,27 @@ export default class ActiveChart extends PureComponent {
               tickLine: false,
               labels: false,
               title: false,
-              line: false,
+              line: false
             }}
             data={activeData}
           />
         </div>
-        {
-          activeData && (
-            <div className={styles.activeChartGrid}>
-              <p>{[...activeData].sort()[activeData.length - 1].y + 200} 亿元</p>
-              <p>{[...activeData].sort()[Math.floor(activeData.length / 2)].y} 亿元</p>
-            </div>
-          )
-        }
-        {
-          activeData && (
-            <div className={styles.activeChartLegend}>
-              <span>00:00</span>
-              <span>{activeData[Math.floor(activeData.length / 2)].x}</span>
-              <span>{activeData[activeData.length - 1].x}</span>
-            </div>
-          )
-        }
+        {activeData && (
+          <div className={styles.activeChartGrid}>
+            <p>{[...activeData].sort()[activeData.length - 1].y + 200} 亿元</p>
+            <p>
+              {[...activeData].sort()[Math.floor(activeData.length / 2)].y} 亿元
+            </p>
+          </div>
+        )}
+        {activeData && (
+          <div className={styles.activeChartLegend}>
+            <span>00:00</span>
+            <span>{activeData[Math.floor(activeData.length / 2)].x}</span>
+            <span>{activeData[activeData.length - 1].x}</span>
+          </div>
+        )}
       </div>
-    );
+    )
   }
 }

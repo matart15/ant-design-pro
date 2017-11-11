@@ -1,4 +1,4 @@
-import { queryNotices } from '../services/api';
+import { queryNotices } from '../services/api'
 
 export default {
   namespace: 'global',
@@ -6,61 +6,61 @@ export default {
   state: {
     collapsed: false,
     notices: [],
-    fetchingNotices: false,
+    fetchingNotices: false
   },
 
   effects: {
     *fetchNotices(_, { call, put }) {
       yield put({
         type: 'changeNoticeLoading',
-        payload: true,
-      });
-      const data = yield call(queryNotices);
+        payload: true
+      })
+      const data = yield call(queryNotices)
       yield put({
         type: 'saveNotices',
-        payload: data,
-      });
+        payload: data
+      })
     },
     *clearNotices({ payload }, { put, select }) {
-      const count = yield select(state => state.global.notices.length);
+      const count = yield select(state => state.global.notices.length)
       yield put({
         type: 'user/changeNotifyCount',
-        payload: count,
-      });
+        payload: count
+      })
 
       yield put({
         type: 'saveClearedNotices',
-        payload,
-      });
-    },
+        payload
+      })
+    }
   },
 
   reducers: {
     changeLayoutCollapsed(state, { payload }) {
       return {
         ...state,
-        collapsed: payload,
-      };
+        collapsed: payload
+      }
     },
     saveNotices(state, { payload }) {
       return {
         ...state,
         notices: payload,
-        fetchingNotices: false,
-      };
+        fetchingNotices: false
+      }
     },
     saveClearedNotices(state, { payload }) {
       return {
         ...state,
-        notices: state.notices.filter(item => item.type !== payload),
-      };
+        notices: state.notices.filter(item => item.type !== payload)
+      }
     },
     changeNoticeLoading(state, { payload }) {
       return {
         ...state,
-        fetchingNotices: payload,
-      };
-    },
+        fetchingNotices: payload
+      }
+    }
   },
 
   subscriptions: {
@@ -68,9 +68,9 @@ export default {
       // Subscribe history(url) change, trigger `load` action if pathname is `/`
       return history.listen(({ pathname, search }) => {
         if (typeof window.ga !== 'undefined') {
-          window.ga('send', 'pageview', pathname + search);
+          window.ga('send', 'pageview', pathname + search)
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}

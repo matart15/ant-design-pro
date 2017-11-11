@@ -1,43 +1,43 @@
-import { queryFakeList } from '../services/api';
+import { queryFakeList } from '../services/api'
 
 export default {
   namespace: 'list',
 
   state: {
     list: [],
-    loading: false,
+    loading: false
   },
 
   effects: {
     *fetch({ payload }, { call, put }) {
       yield put({
         type: 'changeLoading',
-        payload: true,
-      });
-      const response = yield call(queryFakeList, payload);
+        payload: true
+      })
+      const response = yield call(queryFakeList, payload)
       yield put({
         type: 'appendList',
-        payload: Array.isArray(response) ? response : [],
-      });
+        payload: Array.isArray(response) ? response : []
+      })
       yield put({
         type: 'changeLoading',
-        payload: false,
-      });
-    },
+        payload: false
+      })
+    }
   },
 
   reducers: {
     appendList(state, action) {
       return {
         ...state,
-        list: state.list.concat(action.payload),
-      };
+        list: state.list.concat(action.payload)
+      }
     },
     changeLoading(state, action) {
       return {
         ...state,
-        loading: action.payload,
-      };
-    },
-  },
-};
+        loading: action.payload
+      }
+    }
+  }
+}

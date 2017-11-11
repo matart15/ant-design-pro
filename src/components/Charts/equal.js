@@ -1,17 +1,17 @@
 /* eslint eqeqeq: 0 */
 
 function equal(old, target) {
-  let r = true;
-  for (const prop in old) {
+  let r = true
+  Object.keys(old).forEach(prop => {
     if (typeof old[prop] === 'function' && typeof target[prop] === 'function') {
       if (old[prop].toString() != target[prop].toString()) {
-        r = false;
+        r = false
       }
     } else if (old[prop] != target[prop]) {
-      r = false;
+      r = false
     }
-  }
-  return r;
+  })
+  return r
 }
 
-export default equal;
+export default equal
