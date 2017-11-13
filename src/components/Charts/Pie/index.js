@@ -8,8 +8,31 @@ import Debounce from 'lodash-decorators/debounce'
 import equal from '../equal'
 import styles from './index.less'
 
+type Props = {|
+  data?: Object[],
+  height?: number,
+  hasLegend?: boolean,
+  fit?: boolean,
+  margin?: number[],
+  percent?: number,
+  color?: string,
+  inner?: number,
+  animate?: boolean,
+  colors?: string[],
+  lineWidth?: number,
+  valueFormat?: Function,
+  subTitle?: string,
+  total?: number | string,
+  className?: string,
+  tooltips?: boolean,
+  style?: string
+|}
+type State = {|
+  legendData: Object[],
+  legendBlock: boolean
+|}
 /* eslint react/no-danger:0 */
-class Pie extends Component {
+class Pie extends Component<Props, State> {
   state = {
     legendData: [],
     legendBlock: true
@@ -21,7 +44,7 @@ class Pie extends Component {
     window.addEventListener('resize', this.resize)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (!equal(this.props, nextProps)) {
       this.renderChart(nextProps.data)
     }
@@ -34,6 +57,9 @@ class Pie extends Component {
     }
   }
 
+  chart: ?Object = null
+  node: ?Object = null
+  root: ?Object = null
   @Debounce(200)
   resize = () => {
     const { hasLegend } = this.props
@@ -64,15 +90,7 @@ class Pie extends Component {
     }
   }
 
-  handleRef = n => {
-    this.node = n
-  }
-
-  handleRoot = n => {
-    this.root = n
-  }
-
-  handleLegendClick = (item, i) => {
+  handleLegendClick = (item: Object, i: number) => {
     const newItem = item
     newItem.checked = !newItem.checked
 
@@ -80,9 +98,10 @@ class Pie extends Component {
     legendData[i] = newItem
 
     if (this.chart) {
+      const chart = this.chart || {}
       const filterItem = legendData.filter(l => l.checked).map(l => l.x)
-      this.chart.filter('x', filterItem)
-      this.chart.repaint()
+      chart.filter('x', filterItem)
+      chart.repaint()
     }
 
     this.setState({
@@ -90,7 +109,7 @@ class Pie extends Component {
     })
   }
 
-  renderChart(d) {
+  renderChart(d?: Object[]) {
     let data = d || this.props.data
 
     const {
@@ -140,6 +159,9 @@ class Pie extends Component {
     }
 
     // clean
+    if (!this.node) {
+      return
+    }
     this.node.innerHTML = ''
 
     const { Stat } = G2
@@ -224,10 +246,20 @@ class Pie extends Component {
     })
 
     return (
-      <div ref={this.handleRoot} className={pieClassName} style={style}>
+      <div
+        ref={n => {
+          this.root = n
+        }}
+        className={pieClassName}
+        style={style}>
         <ReactFitText maxFontSize={25}>
           <div className={styles.chart}>
-            <div ref={this.handleRef} style={{ fontSize: 0 }} />
+            <div
+              ref={n => {
+                this.node = n
+              }}
+              style={{ fontSize: 0 }}
+            />
             {(subTitle || total) && (
               <div className={styles.total}>
                 {subTitle && <h4 className="pie-sub-title">{subTitle}</h4>}

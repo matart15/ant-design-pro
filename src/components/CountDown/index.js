@@ -1,12 +1,19 @@
 // @flow
 import React, { Component } from 'react'
 
+type Props = {|
+  target: Date,
+  onEnd?: Function,
+  format?: Function
+|}
+type State = {| lastTime: number |}
+
 function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val
 }
 
-class CountDown extends Component {
-  constructor(props) {
+class CountDown extends Component<Props, State> {
+  constructor(props: Props) {
     super(props)
 
     const { lastTime } = this.initTime(props)
@@ -20,7 +27,7 @@ class CountDown extends Component {
     this.tick()
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (this.props.target !== nextProps.target) {
       const { lastTime } = this.initTime(nextProps)
       this.setState({
@@ -35,7 +42,7 @@ class CountDown extends Component {
 
   timer = 0
   interval = 1000
-  initTime = props => {
+  initTime = (props: Props) => {
     let lastTime = 0
     let targetTime = 0
     try {
@@ -45,7 +52,7 @@ class CountDown extends Component {
         targetTime = new Date(props.target).getTime()
       }
     } catch (e) {
-      throw new Error('invalid target prop', e)
+      throw new Error(`invalid target prop ${e}`)
     }
 
     lastTime = targetTime - new Date().getTime()
@@ -57,13 +64,18 @@ class CountDown extends Component {
   // defaultFormat = time => (
   //  <span>{moment(time).format('hh:mm:ss')}</span>
   // );
-  defaultFormat = time => {
+  defaultFormat = (time: number) => {
     const hours = 60 * 60 * 1000
     const minutes = 60 * 1000
 
-    const h = fixedZero(Math.floor(time / hours))
-    const m = fixedZero(Math.floor((time - h * hours) / minutes))
-    const s = fixedZero(Math.floor((time - h * hours - m * minutes) / 1000))
+    const hNumber = Math.floor(time / hours)
+    const h = fixedZero(hNumber)
+    const mNumber = Math.floor((time - hNumber * hours) / minutes)
+    const m = fixedZero(mNumber)
+    const sNumber = Math.floor(
+      (time - hNumber * hours - mNumber * minutes) / 1000
+    )
+    const s = fixedZero(sNumber)
     return (
       <span>
         {h}:{m}:{s}

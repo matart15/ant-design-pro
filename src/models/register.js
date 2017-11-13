@@ -9,7 +9,10 @@ export default {
   },
 
   effects: {
-    *submit(_, { call, put }) {
+    *submit(
+      _: any,
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       yield put({
         type: 'changeSubmitting',
         payload: true
@@ -27,13 +30,13 @@ export default {
   },
 
   reducers: {
-    registerHandle(state, { payload }) {
+    registerHandle(state: Object, { payload }: { payload: Object }) {
       return {
         ...state,
         status: payload.status
       }
     },
-    changeSubmitting(state, { payload }) {
+    changeSubmitting(state: Object, { payload }: { payload: Object }) {
       return {
         ...state,
         submitting: payload

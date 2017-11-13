@@ -4,7 +4,18 @@ import G2 from 'g2'
 import equal from '../equal'
 import styles from '../index.less'
 
-class MiniArea extends PureComponent {
+type Props = {
+  data: Object[],
+  height?: number,
+  fit?: Boolean,
+  color: string,
+  borderWidth?: number,
+  line?: boolean,
+  xAxis?: Object,
+  yAxis?: Object,
+  animate?: boolean
+}
+class MiniArea extends PureComponent<Props> {
   static defaultProps = {
     borderColor: '#1890FF',
     color: 'rgba(24, 144, 255, 0.2)'
@@ -14,7 +25,7 @@ class MiniArea extends PureComponent {
     this.renderChart(this.props.data)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (!equal(this.props, nextProps)) {
       this.renderChart(nextProps.data)
     }
@@ -26,11 +37,10 @@ class MiniArea extends PureComponent {
     }
   }
 
-  handleRef = n => {
-    this.node = n
-  }
+  chart = null
+  node: ?Object = null
 
-  renderChart(data) {
+  renderChart(data: Object[]) {
     const {
       height = 0,
       fit = true,
@@ -48,6 +58,9 @@ class MiniArea extends PureComponent {
     }
 
     // clean
+    if (!this.node) {
+      return
+    }
     this.node.innerHTML = ''
 
     const chart = new G2.Chart({
@@ -131,7 +144,11 @@ class MiniArea extends PureComponent {
     return (
       <div className={styles.miniChart} style={{ height }}>
         <div className={styles.chartContent}>
-          <div ref={this.handleRef} />
+          <div
+            ref={(n: any) => {
+              this.node = n
+            }}
+          />
         </div>
       </div>
     )

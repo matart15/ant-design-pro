@@ -11,7 +11,10 @@ export default {
   },
 
   effects: {
-    *fetchNotices(_, { call, put }) {
+    *fetchNotices(
+      _: any,
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       yield put({
         type: 'changeNoticeLoading',
         payload: true
@@ -22,7 +25,10 @@ export default {
         payload: data
       })
     },
-    *clearNotices({ payload }, { put, select }) {
+    *clearNotices(
+      { payload }: { payload: Object },
+      { put, select }: { put: Function, select: Function }
+    ): Generator<*, *, *> {
       const count = yield select(state => state.global.notices.length)
       yield put({
         type: 'user/changeNotifyCount',
@@ -37,26 +43,26 @@ export default {
   },
 
   reducers: {
-    changeLayoutCollapsed(state, { payload }) {
+    changeLayoutCollapsed(state: Object, { payload }: { payload: Object }) {
       return {
         ...state,
         collapsed: payload
       }
     },
-    saveNotices(state, { payload }) {
+    saveNotices(state: Object, { payload }: { payload: Object }) {
       return {
         ...state,
         notices: payload,
         fetchingNotices: false
       }
     },
-    saveClearedNotices(state, { payload }) {
+    saveClearedNotices(state: Object, { payload }: { payload: Object }) {
       return {
         ...state,
         notices: state.notices.filter(item => item.type !== payload)
       }
     },
-    changeNoticeLoading(state, { payload }) {
+    changeNoticeLoading(state: Object, { payload }: { payload: Object }) {
       return {
         ...state,
         fetchingNotices: payload
@@ -65,7 +71,7 @@ export default {
   },
 
   subscriptions: {
-    setup({ history }) {
+    setup({ history }: { history: Object }) {
       // Subscribe history(url) change, trigger `load` action if pathname is `/`
       return history.listen(({ pathname, search }) => {
         if (typeof window.ga !== 'undefined') {

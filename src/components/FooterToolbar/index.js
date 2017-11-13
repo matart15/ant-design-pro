@@ -3,8 +3,12 @@ import React from 'react'
 import classNames from 'classnames'
 import styles from './index.less'
 
-export default () => {
-  const { children, className, extra, ...restProps } = this.props
+export default (props: {
+  children: any,
+  className?: string,
+  extra?: string
+}) => {
+  const { children, className, extra, ...restProps } = props
   return (
     <div className={classNames(className, styles.toolbar)} {...restProps}>
       <div className={styles.left}>{extra}</div>

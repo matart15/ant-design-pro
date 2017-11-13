@@ -12,6 +12,13 @@ export default function Result({
   extra,
   actions,
   ...restProps
+}: {
+  className?: string,
+  type: string,
+  title: Object | string,
+  description: string,
+  extra?: Object,
+  actions: Object
 }) {
   const iconMap = {
     error: <Icon className={styles.error} type="close-circle" />,

@@ -15,6 +15,16 @@ import {
 } from 'antd'
 import styles from './Login.less'
 
+type Props = {|
+  login: Object,
+  form: Object,
+  dispatch: Function
+|}
+type State = {|
+  count: number,
+  type: string
+|}
+
 const FormItem = Form.Item
 const { TabPane } = Tabs
 
@@ -22,13 +32,13 @@ const { TabPane } = Tabs
   login: state.login
 }))
 @Form.create()
-export default class Login extends Component {
+export default class Login extends Component<Props, State> {
   state = {
     count: 0,
     type: 'account'
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (nextProps.login.status === 'ok') {
       this.props.dispatch(routerRedux.push('/'))
     }
@@ -38,7 +48,7 @@ export default class Login extends Component {
     clearInterval(this.interval)
   }
 
-  onSwitch = key => {
+  onSwitch = (key: string) => {
     this.setState({
       type: key
     })
@@ -56,7 +66,8 @@ export default class Login extends Component {
     }, 1000)
   }
 
-  handleSubmit = e => {
+  interval = 0
+  handleSubmit = (e: Event) => {
     e.preventDefault()
     const { type } = this.state
     this.props.form.validateFields({ force: true }, (err, values) => {
@@ -69,7 +80,7 @@ export default class Login extends Component {
     })
   }
 
-  renderMessage = message => (
+  renderMessage = (message: string) => (
     <Alert
       style={{ marginBottom: 24 }}
       message={message}

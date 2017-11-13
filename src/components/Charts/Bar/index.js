@@ -5,7 +5,17 @@ import Debounce from 'lodash-decorators/debounce'
 import equal from '../equal'
 import styles from '../index.less'
 
-class Bar extends PureComponent {
+type Props = {|
+  data: Object[],
+  autoLabel?: boolean,
+  title: string,
+  height: number,
+  fit?: string,
+  color?: string,
+  margin?: number
+|}
+type State = {| autoHideXLabels: boolean |}
+class Bar extends PureComponent<Props, State> {
   state = {
     autoHideXLabels: false
   }
@@ -16,7 +26,7 @@ class Bar extends PureComponent {
     window.addEventListener('resize', this.resize)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (!equal(this.props, nextProps)) {
       this.renderChart(nextProps.data)
     }
@@ -28,13 +38,15 @@ class Bar extends PureComponent {
       this.chart.destroy()
     }
   }
-
+  chart = null
+  node: ?Object = null
   @Debounce(200)
   resize = () => {
     if (!this.node) {
       return
     }
-    const canvasWidth = this.node.parentNode.clientWidth
+    const parentNode = this.node.parentNode || { clientWidth: 0 }
+    const canvasWidth = parentNode.clientWidth || 0
     const { data = [], autoLabel = true } = this.props
     if (!autoLabel) {
       return
@@ -57,11 +69,7 @@ class Bar extends PureComponent {
     }
   }
 
-  handleRef = n => {
-    this.node = n
-  }
-
-  renderChart(data) {
+  renderChart(data: Object[]) {
     const { autoHideXLabels } = this.state
     const {
       height = 0,
@@ -75,6 +83,9 @@ class Bar extends PureComponent {
     }
 
     // clean
+    if (!this.node) {
+      return
+    }
     this.node.innerHTML = ''
 
     const { Frame } = G2
@@ -142,7 +153,11 @@ class Bar extends PureComponent {
       <div className={styles.chart} style={{ height }}>
         <div>
           {title && <h4>{title}</h4>}
-          <div ref={this.handleRef} />
+          <div
+            ref={n => {
+              this.node = n
+            }}
+          />
         </div>
       </div>
     )

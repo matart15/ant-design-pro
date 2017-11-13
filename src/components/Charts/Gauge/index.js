@@ -8,15 +8,38 @@ const { Shape } = G2
 const primaryColor = '#2F9CFF'
 const backgroundColor = '#F0F2F5'
 
+type Props = {|
+  height: number,
+  color?: string,
+  bgColor?: string,
+  title: string,
+  percent: number,
+  format: Function
+|}
 /* eslint no-underscore-dangle: 0 */
-class Gauge extends PureComponent {
+class Gauge extends PureComponent<Props> {
   componentDidMount() {
     setTimeout(() => {
-      this.renderChart()
+      const {
+        height,
+        color = primaryColor,
+        bgColor = backgroundColor,
+        title,
+        percent,
+        format
+      } = this.props
+      this.renderChart({
+        height,
+        color,
+        bgColor,
+        title,
+        percent,
+        format
+      })
     }, 10)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (!equal(this.props, nextProps)) {
       setTimeout(() => {
         this.renderChart(nextProps)
@@ -30,11 +53,13 @@ class Gauge extends PureComponent {
     }
   }
 
-  handleRef = n => {
+  node = null
+  chart = null
+  handleRef = (n: ?Object) => {
     this.node = n
   }
 
-  initChart(nextProps) {
+  initChart(nextProps: Props) {
     const { title, color = primaryColor } = nextProps || this.props
 
     Shape.registShape('point', 'dashBoard', {
@@ -110,7 +135,7 @@ class Gauge extends PureComponent {
     })
   }
 
-  renderChart(nextProps) {
+  renderChart(nextProps: Props) {
     const {
       height,
       color = primaryColor,
@@ -118,8 +143,7 @@ class Gauge extends PureComponent {
       title,
       percent,
       format
-    } =
-      nextProps || this.props
+    } = nextProps
     const data = [{ name: title, value: percent }]
 
     if (this.chart) {

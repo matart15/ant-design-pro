@@ -9,7 +9,10 @@ export default {
   },
 
   effects: {
-    *fetchTags(_, { call, put }) {
+    *fetchTags(
+      _: any,
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       const response = yield call(queryTags)
       yield put({
         type: 'saveTags',
@@ -19,7 +22,7 @@ export default {
   },
 
   reducers: {
-    saveTags(state, action) {
+    saveTags(state: Object, action: Object) {
       return {
         ...state,
         tags: action.payload

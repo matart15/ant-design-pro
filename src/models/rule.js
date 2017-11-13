@@ -13,7 +13,10 @@ export default {
   },
 
   effects: {
-    *fetch({ payload }, { call, put }) {
+    *fetch(
+      { payload }: { payload: Object },
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       yield put({
         type: 'changeLoading',
         payload: true
@@ -28,7 +31,10 @@ export default {
         payload: false
       })
     },
-    *add({ payload, callback }, { call, put }) {
+    *add(
+      { payload, callback }: { payload: Object, callback: Function },
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       yield put({
         type: 'changeLoading',
         payload: true
@@ -45,7 +51,10 @@ export default {
 
       if (callback) callback()
     },
-    *remove({ payload, callback }, { call, put }) {
+    *remove(
+      { payload, callback }: { payload: Object, callback: Function },
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       yield put({
         type: 'changeLoading',
         payload: true
@@ -65,13 +74,13 @@ export default {
   },
 
   reducers: {
-    save(state, action) {
+    save(state: Object, action: Object) {
       return {
         ...state,
         data: action.payload
       }
     },
-    changeLoading(state, action) {
+    changeLoading(state: Object, action: Object) {
       return {
         ...state,
         loading: action.payload

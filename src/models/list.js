@@ -10,7 +10,10 @@ export default {
   },
 
   effects: {
-    *fetch({ payload }, { call, put }) {
+    *fetch(
+      { payload }: { payload: Object },
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       yield put({
         type: 'changeLoading',
         payload: true
@@ -28,13 +31,13 @@ export default {
   },
 
   reducers: {
-    appendList(state, action) {
+    appendList(state: Object, action: Object) {
       return {
         ...state,
         list: state.list.concat(action.payload)
       }
     },
-    changeLoading(state, action) {
+    changeLoading(state: Object, action: Object) {
       return {
         ...state,
         loading: action.payload

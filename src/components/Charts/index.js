@@ -14,7 +14,7 @@ export { default as WaterWave } from './WaterWave'
 export { default as TagCloud } from './TagCloud'
 export { default as TimelineChart } from './TimelineChart'
 
-export const yuan = val => `&yen; ${numeral(val).format('0,0')}`
+export const yuan = (val: number) => `&yen; ${numeral(val).format('0,0')}`
 
 // export default {
 //   yuan,

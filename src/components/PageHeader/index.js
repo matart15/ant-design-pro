@@ -5,9 +5,25 @@ import { Breadcrumb, Tabs } from 'antd'
 import classNames from 'classnames'
 import styles from './index.less'
 
+type Props = {
+  title?: string,
+  logo?: string,
+  action?: string,
+  content?: string,
+  extraContent?: string,
+  breadcrumbList?: Object[],
+  tabList?: Object[],
+  className?: string,
+  linkElement?: string,
+  routes?: Object,
+  location?: Object,
+  params?: Object,
+  breadcrumbNameMap?: Object,
+  onTabChange?: Function
+}
 const { TabPane } = Tabs
 
-function getBreadcrumbNameWithParams(breadcrumbNameMap, url) {
+function getBreadcrumbNameWithParams(breadcrumbNameMap: Object, url: string) {
   let name = ''
   Object.keys(breadcrumbNameMap).forEach(item => {
     const itemRegExpStr = `^${item.replace(/:[\w-]+/g, '[\\w-]+')}$`
@@ -19,14 +35,14 @@ function getBreadcrumbNameWithParams(breadcrumbNameMap, url) {
   return name
 }
 
-export default class PageHeader extends PureComponent {
+export default class PageHeader extends PureComponent<Props> {
   static contextTypes = {
     routes: PropTypes.array,
     params: PropTypes.object,
     location: PropTypes.object,
     breadcrumbNameMap: PropTypes.object
   }
-  onChange = key => {
+  onChange = (key: string) => {
     if (this.props.onTabChange) {
       this.props.onTabChange(key)
     }
@@ -38,7 +54,12 @@ export default class PageHeader extends PureComponent {
     breadcrumbNameMap:
       this.props.breadcrumbNameMap || this.context.breadcrumbNameMap
   })
-  itemRender = (route, params, routes, paths) => {
+  itemRender = (
+    route: Object,
+    params: Object,
+    routes: Object,
+    paths: string[]
+  ) => {
     const { linkElement = 'a' } = this.props
     const last = routes.indexOf(route) === routes.length - 1
     return last || !route.component ? (

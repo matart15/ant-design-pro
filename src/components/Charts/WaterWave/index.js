@@ -4,8 +4,14 @@ import styles from './index.less'
 
 /* eslint no-return-assign: 0 */
 // riddle: https://riddle.alibaba-inc.com/riddles/2d9a4b90
-
-class WaterWave extends PureComponent {
+type Props = {|
+  height: number,
+  percent: number,
+  color?: string,
+  title: string
+|}
+type State = {| radio: number |}
+class WaterWave extends PureComponent<Props, State> {
   static defaultProps = {
     height: 160
   }
@@ -21,6 +27,9 @@ class WaterWave extends PureComponent {
   }
 
   componentWillUnmount() {
+    if (this.node) {
+      return
+    }
     window.cancelAnimationFrame(this.timer)
     if (this.node) {
       this.node.innerHTML = ''
@@ -28,8 +37,15 @@ class WaterWave extends PureComponent {
     window.removeEventListener('resize', this.resize)
   }
 
+  timer = null
+  node = null
+  root: ?Object = null
+
   resize = () => {
     const { height } = this.props
+    if (!this.root) {
+      return
+    }
     const { offsetWidth } = this.root.parentNode
     this.setState({
       radio: offsetWidth < height ? offsetWidth / height : 1
@@ -115,7 +131,7 @@ class WaterWave extends PureComponent {
     function render() {
       ctx.clearRect(0, 0, canvasWidth, canvasHeight)
       if (circleLock) {
-        if (arcStack.length) {
+        if (arcStack && arcStack.length) {
           const temp = arcStack.shift()
           ctx.lineTo(temp[0], temp[1])
           ctx.stroke()
@@ -128,11 +144,11 @@ class WaterWave extends PureComponent {
           ctx.globalCompositeOperation = 'destination-over'
           ctx.beginPath()
           ctx.lineWidth = lineWidth
-          ctx.arc(radius, radius, bR, 0, 2 * Math.PI, 1)
+          ctx.arc(radius, radius, bR, 0, 2 * Math.PI, true)
 
           ctx.beginPath()
           ctx.save()
-          ctx.arc(radius, radius, radius - 3 * lineWidth, 0, 2 * Math.PI, 1)
+          ctx.arc(radius, radius, radius - 3 * lineWidth, 0, 2 * Math.PI, true)
 
           ctx.restore()
           ctx.clip()

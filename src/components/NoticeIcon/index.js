@@ -5,9 +5,30 @@ import classNames from 'classnames'
 import List from './NoticeList'
 import styles from './index.less'
 
+type Props = {|
+  onItemClick: Function,
+  onPopupVisibleChange: Function,
+  onTabChange: Function,
+  onClear: Function,
+  loading?: boolean,
+  locale?: {
+    emptyText: string,
+    clear: string
+  },
+  emptyImage?: string,
+  children: Object[],
+  className: string,
+  count: number,
+  popupAlign: Object,
+  popupVisible?: boolean
+|}
+type State = {|
+  tabType: string
+|}
+
 const { TabPane } = Tabs
 
-export default class NoticeIcon extends PureComponent {
+export default class NoticeIcon extends PureComponent<Props, State> {
   static defaultProps = {
     onItemClick: () => {},
     onPopupVisibleChange: () => {},
@@ -22,18 +43,17 @@ export default class NoticeIcon extends PureComponent {
       'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg'
   }
   static Tab = TabPane
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
-    this.state = {}
     if (props.children && props.children[0]) {
       this.state.tabType = props.children[0].props.title
     }
   }
-  onItemClick = (item, tabProps) => {
-    const { onItemClick } = this.props
-    onItemClick(item, tabProps)
+  state = { tabType: '' }
+  onItemClick = (item: Object, tabProps: Object) => {
+    this.props.onItemClick(item, tabProps)
   }
-  onTabChange = tabType => {
+  onTabChange = (tabType: string) => {
     this.setState({ tabType })
     this.props.onTabChange(tabType)
   }

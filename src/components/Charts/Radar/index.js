@@ -5,8 +5,21 @@ import { Row, Col } from 'antd'
 import equal from '../equal'
 import styles from './index.less'
 
+type Props = {|
+  data: Object[],
+  height: number,
+  title?: string,
+  hasLegend: boolean,
+  hasLegend?: boolean,
+  fit?: boolean,
+  tickCount?: number,
+  margin?: number[]
+|}
+type State = {|
+  legendData: Object[]
+|}
 /* eslint react/no-danger:0 */
-class Radar extends PureComponent {
+class Radar extends PureComponent<Props, State> {
   state = {
     legendData: []
   }
@@ -15,7 +28,7 @@ class Radar extends PureComponent {
     this.renderChart(this.props.data)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (!equal(this.props, nextProps)) {
       this.renderChart(nextProps.data)
     }
@@ -27,11 +40,9 @@ class Radar extends PureComponent {
     }
   }
 
-  handleRef = n => {
-    this.node = n
-  }
-
-  handleLegendClick = (item, i) => {
+  chart = null
+  node: ?Object = null
+  handleLegendClick = (item: Object, i: number) => {
     const newItem = item
     newItem.checked = !newItem.checked
 
@@ -39,9 +50,10 @@ class Radar extends PureComponent {
     legendData[i] = newItem
 
     if (this.chart) {
+      const chart = this.chart || {}
       const filterItem = legendData.filter(l => l.checked).map(l => l.name)
-      this.chart.filter('name', filterItem)
-      this.chart.repaint()
+      chart.filter('name', filterItem)
+      chart.repaint()
     }
 
     this.setState({
@@ -49,7 +61,7 @@ class Radar extends PureComponent {
     })
   }
 
-  renderChart(data) {
+  renderChart(data: Object[]) {
     const {
       height = 0,
       hasLegend = true,
@@ -74,6 +86,9 @@ class Radar extends PureComponent {
     }
 
     // clean
+    if (!this.node) {
+      return
+    }
     this.node.innerHTML = ''
 
     const chart = new G2.Chart({
@@ -173,7 +188,11 @@ class Radar extends PureComponent {
       <div className={styles.radar} style={{ height }}>
         <div>
           {title && <h4>{title}</h4>}
-          <div ref={this.handleRef} />
+          <div
+            ref={n => {
+              this.node = n
+            }}
+          />
           {hasLegend && (
             <Row className={styles.legend}>
               {legendData.map((item, i) => (

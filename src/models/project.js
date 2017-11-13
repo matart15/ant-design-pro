@@ -10,7 +10,10 @@ export default {
   },
 
   effects: {
-    *fetchNotice(_, { call, put }) {
+    *fetchNotice(
+      _: any,
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       yield put({
         type: 'changeLoading',
         payload: true
@@ -28,13 +31,13 @@ export default {
   },
 
   reducers: {
-    saveNotice(state, action) {
+    saveNotice(state: Object, action: Object) {
       return {
         ...state,
         notice: action.payload
       }
     },
-    changeLoading(state, action) {
+    changeLoading(state: Object, action: Object) {
       return {
         ...state,
         loading: action.payload

@@ -16,6 +16,17 @@ import GlobalFooter from '../components/GlobalFooter'
 import { getNavData } from '../common/nav'
 import { getRouteData } from '../utils/utils'
 
+type Props = {|
+  location: Object,
+  dispatch: Function,
+  notices: Object[],
+  collapsed: boolean,
+  currentUser: Object,
+  collapsed: boolean,
+  fetchingNotices: boolean
+|}
+type State = {| openKeys: string[] |}
+
 const { Header, Sider, Content } = Layout
 const { SubMenu } = Menu
 
@@ -40,7 +51,7 @@ const query = {
   }
 }
 
-class BasicLayout extends React.PureComponent {
+class BasicLayout extends React.PureComponent<Props, State> {
   static childContextTypes = {
     location: PropTypes.object,
     breadcrumbNameMap: PropTypes.object
@@ -90,7 +101,7 @@ class BasicLayout extends React.PureComponent {
       })
     }
   }
-  getDefaultCollapsedSubMenus(props) {
+  getDefaultCollapsedSubMenus(props): string[] {
     const currentMenuSelectedKeys = [...this.getCurrentMenuSelectedKeys(props)]
     currentMenuSelectedKeys.splice(-1, 1)
     if (currentMenuSelectedKeys.length === 0) {
@@ -198,6 +209,8 @@ class BasicLayout extends React.PureComponent {
     })
     return groupBy(newNotices, 'type')
   }
+  menus: Object[] = []
+  resizeTimeout = null
   handleOpenChange = openKeys => {
     const lastOpenKey = openKeys[openKeys.length - 1]
     const isMainMenu = this.menus.some(

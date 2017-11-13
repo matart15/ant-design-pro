@@ -14,6 +14,14 @@ export default ({
   img,
   actions,
   ...rest
+}: {
+  className?: string,
+  linkElement?: string,
+  type: string,
+  title?: string,
+  desc?: string,
+  img?: string,
+  actions?: Function
 }) => {
   const pageType = type in config ? type : '404'
   const clsString = classNames(styles.exception, className)

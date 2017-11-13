@@ -3,12 +3,17 @@ import React, { PureComponent } from 'react'
 import { Input, Icon } from 'antd'
 import styles from './index.less'
 
-export default class EditableItem extends PureComponent {
+type Props = {| value: string |}
+type State = {|
+  value: string,
+  editable: boolean
+|}
+export default class EditableItem extends PureComponent<Props, State> {
   state = {
     value: this.props.value,
     editable: false
   }
-  handleChange = e => {
+  handleChange = (e: Object) => {
     const { value } = e.target
     this.setState({ value })
   }

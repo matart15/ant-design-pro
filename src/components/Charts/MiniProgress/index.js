@@ -9,6 +9,11 @@ const MiniProgress = ({
   color = 'rgb(19, 194, 194)',
   strokeWidth,
   percent
+}: {
+  target: number,
+  color?: string,
+  strokeWidth: number,
+  percent: number
 }) => (
   <div className={styles.miniProgress}>
     <Tooltip title={`目标值: ${target}%`}>

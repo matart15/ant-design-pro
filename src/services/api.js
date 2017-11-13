@@ -10,11 +10,11 @@ export async function queryActivities() {
   return request('/api/activities')
 }
 
-export async function queryRule(params) {
+export async function queryRule(params: Object) {
   return request(`/api/rule?${stringify(params)}`)
 }
 
-export async function removeRule(params) {
+export async function removeRule(params: Object) {
   return request('/api/rule', {
     method: 'POST',
     body: {
@@ -24,7 +24,7 @@ export async function removeRule(params) {
   })
 }
 
-export async function addRule(params) {
+export async function addRule(params: Object) {
   return request('/api/rule', {
     method: 'POST',
     body: {
@@ -34,7 +34,7 @@ export async function addRule(params) {
   })
 }
 
-export async function fakeSubmitForm(params) {
+export async function fakeSubmitForm(params: Object) {
   return request('/api/forms', {
     method: 'POST',
     body: params
@@ -57,25 +57,25 @@ export async function queryAdvancedProfile() {
   return request('/api/profile/advanced')
 }
 
-export async function queryFakeList(params) {
+export async function queryFakeList(params: Object) {
   return request(`/api/fake_list?${stringify(params)}`)
 }
 
-export async function fakeAccountLogin(params) {
+export async function fakeAccountLogin(params: Object) {
   return request('/api/login/account', {
     method: 'POST',
     body: params
   })
 }
 
-export async function fakeMobileLogin(params) {
+export async function fakeMobileLogin(params: Object) {
   return request('/api/login/mobile', {
     method: 'POST',
     body: params
   })
 }
 
-export async function fakeRegister(params) {
+export async function fakeRegister(params: Object) {
   return request('/api/register', {
     method: 'POST',
     body: params

@@ -1,11 +1,23 @@
 // @flow
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
 import { Input, Icon, AutoComplete } from 'antd'
 import classNames from 'classnames'
 import styles from './index.less'
 
-export default class HeaderSearch extends PureComponent {
+type Props = {|
+  className: string,
+  placeholder: string,
+  onSearch: Function,
+  onPressEnter: Function,
+  defaultActiveFirstOption: boolean,
+  dataSource: string[]
+|}
+type State = {|
+  searchMode: boolean,
+  value: string
+|}
+
+export default class HeaderSearch extends PureComponent<Props, State> {
   static defaultProps = {
     defaultActiveFirstOption: false,
     onPressEnter: () => {},
@@ -14,14 +26,6 @@ export default class HeaderSearch extends PureComponent {
     placeholder: '',
     dataSource: []
   }
-  static propTypes = {
-    className: PropTypes.string,
-    placeholder: PropTypes.string,
-    onSearch: PropTypes.func,
-    onPressEnter: PropTypes.func,
-    defaultActiveFirstOption: PropTypes.bool,
-    dataSource: PropTypes.array
-  }
   state = {
     searchMode: false,
     value: ''
@@ -29,22 +33,24 @@ export default class HeaderSearch extends PureComponent {
   componentWillUnmount() {
     clearTimeout(this.timeout)
   }
-  onKeyDown = e => {
+  onKeyDown = (e: Object) => {
     if (e.key === 'Enter') {
       this.timeout = setTimeout(() => {
         this.props.onPressEnter(this.state.value) // Fix duplicate onPressEnter
       }, 0)
     }
   }
-  onChange = value => {
+  onChange = (value: string) => {
     this.setState({ value })
     if (this.props.onChange) {
       this.props.onChange()
     }
   }
+  timeout = null
+  input = null
   enterSearchMode = () => {
     this.setState({ searchMode: true }, () => {
-      if (this.state.searchMode) {
+      if (this.input && this.state.searchMode) {
         this.input.focus()
       }
     })

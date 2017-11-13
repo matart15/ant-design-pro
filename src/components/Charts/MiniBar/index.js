@@ -4,12 +4,19 @@ import G2 from 'g2'
 import equal from '../equal'
 import styles from '../index.less'
 
-class MiniBar extends PureComponent {
+type Props = {
+  data: Object[],
+  height?: number,
+  fit?: number,
+  color?: string
+}
+
+class MiniBar extends PureComponent<Props> {
   componentDidMount() {
     this.renderChart(this.props.data)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (!equal(this.props, nextProps)) {
       this.renderChart(nextProps.data)
     }
@@ -21,11 +28,10 @@ class MiniBar extends PureComponent {
     }
   }
 
-  handleRef = n => {
-    this.node = n
-  }
+  chart = null
+  node = null
 
-  renderChart(data) {
+  renderChart(data: Object[]) {
     const { height = 0, fit = true, color = '#1890FF' } = this.props
 
     if (!data || (data && data.length < 1)) {
@@ -33,6 +39,9 @@ class MiniBar extends PureComponent {
     }
 
     // clean
+    if (!this.node) {
+      return
+    }
     this.node.innerHTML = ''
 
     const { Frame } = G2
@@ -81,7 +90,11 @@ class MiniBar extends PureComponent {
     return (
       <div className={styles.miniChart} style={{ height }}>
         <div className={styles.chartContent}>
-          <div ref={this.handleRef} />
+          <div
+            ref={n => {
+              this.node = n
+            }}
+          />
         </div>
       </div>
     )

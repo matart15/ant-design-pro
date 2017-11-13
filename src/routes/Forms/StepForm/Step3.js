@@ -5,7 +5,7 @@ import { routerRedux } from 'dva/router'
 import Result from '../../../components/Result'
 import styles from './style.less'
 
-export default ({ dispatch, data }) => {
+export default ({ dispatch, data }: { dispatch: Function, data: Object }) => {
   const onFinish = () => {
     dispatch(routerRedux.push('/form/step-form'))
   }

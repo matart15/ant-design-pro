@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import styles from './index.less'
 
 export default ({
-  theme,
+  theme = '',
   title,
   subTitle,
   total,
@@ -14,6 +14,15 @@ export default ({
   suffix,
   gap,
   ...rest
+}: {
+  theme?: string,
+  title?: string,
+  subTitle: string | Object,
+  total: string | Object | number,
+  subTotal?: number,
+  status?: string,
+  suffix?: string,
+  gap?: number
 }) => (
   <div
     className={classNames(styles.numberInfo, {

@@ -11,7 +11,10 @@ export default {
   },
 
   effects: {
-    *fetch(_, { call, put }) {
+    *fetch(
+      _: any,
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       yield put({
         type: 'changeLoading',
         payload: true
@@ -26,7 +29,10 @@ export default {
         payload: false
       })
     },
-    *fetchCurrent(_, { call, put }) {
+    *fetchCurrent(
+      _: any,
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       const response = yield call(queryCurrent)
       yield put({
         type: 'saveCurrentUser',
@@ -36,25 +42,25 @@ export default {
   },
 
   reducers: {
-    save(state, action) {
+    save(state: Object, action: Object) {
       return {
         ...state,
         list: action.payload
       }
     },
-    changeLoading(state, action) {
+    changeLoading(state: Object, action: Object) {
       return {
         ...state,
         loading: action.payload
       }
     },
-    saveCurrentUser(state, action) {
+    saveCurrentUser(state: Object, action: Object) {
       return {
         ...state,
         currentUser: action.payload
       }
     },
-    changeNotifyCount(state, action) {
+    changeNotifyCount(state: Object, action: Object) {
       return {
         ...state,
         currentUser: {

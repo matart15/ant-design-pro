@@ -5,7 +5,18 @@ import { Col } from 'antd'
 import styles from './index.less'
 import responsive from './responsive'
 
-const Description = ({ term, column, className, children, ...restProps }) => {
+const Description = ({
+  term,
+  column = 0,
+  className,
+  children,
+  ...restProps
+}: {
+  term?: Object | string,
+  column?: number,
+  className?: string,
+  children: string | Object
+}) => {
   const clsString = classNames(styles.description, className)
   return (
     <Col className={clsString} {...responsive[column]} {...restProps}>

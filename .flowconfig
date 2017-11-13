@@ -6,25 +6,12 @@
 
 [ignore]
 
-; .*/node_modules/.*
-.*/node_modules/hellojs/.*
-.*/node_modules/graphql/.*
-.*/node_modules/graphql-language-service-interface/.*
-.*/node_modules/graphql-language-service-utils/.*
-.*/node_modules/graphql-language-service-types/.*
-.*/node_modules/graphql-language-service-config/.*
-.*/node_modules/graphql-language-service-parser/.*
-.*/node_modules/radium/.*
-.*/node_modules/react-scripts/.*
-.*/node_modules/react-storybooks-relay-container/.*
-.*/node_modules/react-event-listener/.*
-.*/create-react-app/.*
-
 [libs]
 ./node_modules/fbjs/flow/lib
 ./flow-typed
 
 [options]
+esproposal.decorators=ignore
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable
 

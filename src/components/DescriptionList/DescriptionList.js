@@ -13,6 +13,14 @@ export default ({
   children,
   size,
   ...restProps
+}: {
+  className?: string,
+  title?: string,
+  col?: number,
+  layout?: string,
+  gutter?: number,
+  children: Object[] | Object,
+  size?: string
 }) => {
   const clsString = classNames(
     styles.descriptionList,

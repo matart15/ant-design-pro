@@ -5,7 +5,14 @@ import classNames from 'classnames'
 
 import styles from './index.less'
 
-const AvatarList = ({ children, size, ...other }) => {
+const AvatarList = ({
+  children,
+  size,
+  ...other
+}: {
+  children: any,
+  size: string
+}) => {
   const childrenWithProps = React.Children.map(children, child =>
     React.cloneElement(child, {
       size
@@ -19,7 +26,17 @@ const AvatarList = ({ children, size, ...other }) => {
   )
 }
 
-const Item = ({ src, size, tips, onClick = () => {} }) => {
+const Item = ({
+  src,
+  size,
+  tips,
+  onClick = () => {}
+}: {
+  src: string,
+  size?: number,
+  tips: string,
+  onClick?: () => void
+}) => {
   const cls = classNames(styles.avatarItem, {
     [styles.avatarItemLarge]: size === 'large',
     [styles.avatarItemSmall]: size === 'small',

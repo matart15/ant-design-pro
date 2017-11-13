@@ -5,6 +5,18 @@ import { routerRedux, Link } from 'dva/router'
 import { Form, Input, Button, Select, Row, Col, Popover, Progress } from 'antd'
 import styles from './Register.less'
 
+type Props = {|
+  dispatch: Function,
+  register: Object,
+  form: Object
+|}
+type State = {|
+  count: number,
+  confirmDirty: boolean,
+  visible: boolean,
+  help: string
+|}
+
 const FormItem = Form.Item
 const { Option } = Select
 const InputGroup = Input.Group
@@ -25,7 +37,7 @@ const passwordProgressMap = {
   register: state.register
 }))
 @Form.create()
-export default class Register extends Component {
+export default class Register extends Component<Props, State> {
   state = {
     count: 0,
     confirmDirty: false,
@@ -33,7 +45,7 @@ export default class Register extends Component {
     help: ''
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (nextProps.register.status === 'ok') {
       this.props.dispatch(routerRedux.push('/user/register-result'))
     }
@@ -67,7 +79,8 @@ export default class Register extends Component {
     return 'pool'
   }
 
-  handleSubmit = e => {
+  interval = 0
+  handleSubmit = (e: Object) => {
     e.preventDefault()
     this.props.form.validateFields({ force: true }, (err, values) => {
       if (!err) {
@@ -79,12 +92,12 @@ export default class Register extends Component {
     })
   }
 
-  handleConfirmBlur = e => {
+  handleConfirmBlur = (e: Object) => {
     const { value } = e.target
     this.setState({ confirmDirty: this.state.confirmDirty || !!value })
   }
 
-  checkConfirm = (rule, value, callback) => {
+  checkConfirm = (rule: string, value: string, callback: Function) => {
     const { form } = this.props
     if (value && value !== form.getFieldValue('password')) {
       callback('两次输入的密码不匹配!')
@@ -93,7 +106,7 @@ export default class Register extends Component {
     }
   }
 
-  checkPassword = (rule, value, callback) => {
+  checkPassword = (rule: string, value: string, callback: Function) => {
     if (!value) {
       this.setState({
         help: '请输入密码！',

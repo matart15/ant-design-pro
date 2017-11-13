@@ -4,9 +4,15 @@ import PropTypes from 'prop-types'
 import { Button } from 'antd'
 import styles from './index.less'
 
+type Props = {|
+  links: Object[],
+  onAdd: Function,
+  linkElement: Object
+|}
+
 // TODO: 添加逻辑
 
-class EditableLinkGroup extends PureComponent {
+class EditableLinkGroup extends PureComponent<Props> {
   static defaultProps = {
     links: [],
     onAdd: () => {},

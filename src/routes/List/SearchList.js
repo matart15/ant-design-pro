@@ -22,6 +22,11 @@ import StandardFormRow from '../../components/StandardFormRow'
 import TagSelect from '../../components/TagSelect'
 import styles from './SearchList.less'
 
+type Props = {|
+  form: Object,
+  dispatch: Function,
+  list: Object
+|}
 const { Option } = Select
 const FormItem = Form.Item
 
@@ -31,7 +36,7 @@ const pageSize = 5
 @connect(state => ({
   list: state.list
 }))
-export default class SearchList extends Component {
+export default class SearchList extends Component<Props> {
   componentDidMount() {
     this.fetchMore()
   }
@@ -52,7 +57,7 @@ export default class SearchList extends Component {
     })
   }
 
-  handleTabChange = key => {
+  handleTabChange = (key: string) => {
     const { dispatch } = this.props
     switch (key) {
       case 'docs':
@@ -68,6 +73,8 @@ export default class SearchList extends Component {
         break
     }
   }
+
+  handleFormSubmit = () => {}
 
   render() {
     const { form, list: { list, loading } } = this.props

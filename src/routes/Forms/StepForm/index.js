@@ -8,10 +8,18 @@ import Step2 from './Step2'
 import Step3 from './Step3'
 import styles from '../style.less'
 
+type Props = {|
+  form: Object,
+  location: Object,
+  stepFormData: Object,
+  submitting: boolean,
+  dispatch: Function
+|}
+
 const { Step } = Steps
 
 @Form.create()
-class StepForm extends PureComponent {
+class StepForm extends PureComponent<Props> {
   getCurrentStep() {
     const { location } = this.props
     const { pathname } = location
@@ -29,9 +37,9 @@ class StepForm extends PureComponent {
   }
   getCurrentComponent() {
     const componentMap = {
-      0: Step1,
-      1: Step2,
-      2: Step3
+      '0': Step1,
+      '1': Step2,
+      '2': Step3
     }
     return componentMap[this.getCurrentStep()]
   }

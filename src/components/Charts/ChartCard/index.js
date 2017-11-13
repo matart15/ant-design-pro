@@ -13,6 +13,14 @@ const ChartCard = ({
   footer,
   children,
   ...rest
+}: {
+  loading?: boolean,
+  contentHeight: number,
+  title: string,
+  action: Object,
+  total: string,
+  footer: Object,
+  children: any
 }) => {
   const content = (
     <div className={styles.chartCard}>

@@ -4,14 +4,25 @@ import moment from 'moment'
 import { Table, Alert, Badge } from 'antd'
 import styles from './index.less'
 
+type Props = {|
+  selectedRows: Object[],
+  data: Object,
+  loading: boolean,
+  onSelectRow: Function,
+  onChange: Function
+|}
+type State = {|
+  selectedRowKeys: string[],
+  totalCallNo: number
+|}
 const statusMap = ['default', 'processing', 'success', 'error']
-class StandardTable extends PureComponent {
+class StandardTable extends PureComponent<Props, State> {
   state = {
     selectedRowKeys: [],
     totalCallNo: 0
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     // clean state
     if (nextProps.selectedRows.length === 0) {
       this.setState({
@@ -21,9 +32,12 @@ class StandardTable extends PureComponent {
     }
   }
 
-  handleRowSelectChange = (selectedRowKeys, selectedRows) => {
+  handleRowSelectChange = (
+    selectedRowKeys: string[],
+    selectedRows: Object[]
+  ) => {
     const totalCallNo = selectedRows.reduce(
-      (sum, val) => sum + parseFloat(val.callNo, 10),
+      (sum, val) => sum + parseFloat(val.callNo),
       0
     )
 
@@ -34,8 +48,14 @@ class StandardTable extends PureComponent {
     this.setState({ selectedRowKeys, totalCallNo })
   }
 
-  handleTableChange = (pagination, filters, sorter) => {
-    this.props.onChange(pagination, filters, sorter)
+  handleTableChange = (
+    pagination: Object,
+    filters: Object[],
+    sorter: Object
+  ) => {
+    if (this.props.onChange) {
+      this.props.onChange(pagination, filters, sorter)
+    }
   }
 
   cleanSelectedKeys = () => {

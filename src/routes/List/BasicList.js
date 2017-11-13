@@ -21,14 +21,34 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout'
 
 import styles from './BasicList.less'
 
+type Props = {|
+  dispatch: Function,
+  list: Object
+|}
+
 const RadioButton = Radio.Button
 const RadioGroup = Radio.Group
 const { Search } = Input
 
+const Info = ({
+  title,
+  value,
+  bordered
+}: {
+  title: string,
+  value: string,
+  bordered?: boolean
+}) => (
+  <div className={styles.headerInfo}>
+    <span>{title}</span>
+    <p>{value}</p>
+    {bordered && <em />}
+  </div>
+)
 @connect(state => ({
   list: state.list
 }))
-export default class BasicList extends PureComponent {
+export default class BasicList extends PureComponent<Props> {
   componentDidMount() {
     this.props.dispatch({
       type: 'list/fetch',
@@ -40,14 +60,6 @@ export default class BasicList extends PureComponent {
 
   render() {
     const { list: { list, loading } } = this.props
-
-    const Info = ({ title, value, bordered }) => (
-      <div className={styles.headerInfo}>
-        <span>{title}</span>
-        <p>{value}</p>
-        {bordered && <em />}
-      </div>
-    )
 
     const extraContent = (
       <div className={styles.extraContent}>

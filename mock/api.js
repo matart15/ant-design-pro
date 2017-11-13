@@ -48,7 +48,7 @@ const user = [
   '仲尼'
 ]
 
-export function fakeList(count) {
+export function fakeList(count: number) {
   const list = []
   for (let i = 0; i < count; i += 1) {
     list.push({
@@ -96,7 +96,7 @@ export function fakeList(count) {
   return list
 }
 
-export function getFakeList(req, res, u) {
+export function getFakeList(req: Object, res: Object, u: string) {
   let url = u
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
     url = req.url; // eslint-disable-line

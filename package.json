@@ -11,7 +11,6 @@
     "precommit": "lint-staged",
     "fix": "eslint --fix \"src/**/*.{js,jsx}\"",
     "test": "jest --env=jsdom --no-cache",
-    "flow": "flow",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "analyze": "roadhog build --analyze",

@@ -6,6 +6,11 @@ import NumberInfo from '../NumberInfo'
 
 import styles from './index.less'
 
+type Props = {||}
+type State = {|
+  activeData: Object[]
+|}
+
 function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val
 }
@@ -21,7 +26,7 @@ function getActiveData() {
   return activeData
 }
 
-export default class ActiveChart extends PureComponent {
+export default class ActiveChart extends PureComponent<Props, State> {
   state = {
     activeData: getActiveData()
   }
@@ -38,6 +43,7 @@ export default class ActiveChart extends PureComponent {
     clearInterval(this.timer)
   }
 
+  timer = 0
   render() {
     const { activeData = [] } = this.state
 

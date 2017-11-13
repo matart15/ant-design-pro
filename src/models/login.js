@@ -10,7 +10,10 @@ export default {
   },
 
   effects: {
-    *accountSubmit({ payload }, { call, put }) {
+    *accountSubmit(
+      { payload }: { payload: Object },
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       yield put({
         type: 'changeSubmitting',
         payload: true
@@ -25,7 +28,10 @@ export default {
         payload: false
       })
     },
-    *mobileSubmit(_, { call, put }) {
+    *mobileSubmit(
+      _: any,
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       yield put({
         type: 'changeSubmitting',
         payload: true
@@ -40,7 +46,7 @@ export default {
         payload: false
       })
     },
-    *logout(_, { put }) {
+    *logout(_: any, { put }: { put: Function }): Generator<*, *, *> {
       yield put({
         type: 'changeLoginStatus',
         payload: {
@@ -52,14 +58,14 @@ export default {
   },
 
   reducers: {
-    changeLoginStatus(state, { payload }) {
+    changeLoginStatus(state: Object, { payload }: { payload: Object }) {
       return {
         ...state,
         status: payload.status,
         type: payload.type
       }
     },
-    changeSubmitting(state, { payload }) {
+    changeSubmitting(state: Object, { payload }: { payload: Object }) {
       return {
         ...state,
         submitting: payload

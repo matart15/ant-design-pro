@@ -19,6 +19,12 @@ import FooterToolbar from '../../components/FooterToolbar'
 import TableForm from './TableForm'
 import styles from './style.less'
 
+type Props = {|
+  form: Object,
+  dispatch: Function,
+  submitting: boolean
+|}
+
 const { Option } = Select
 const { RangePicker } = DatePicker
 
@@ -58,7 +64,7 @@ const tableData = [
   }
 ]
 
-class AdvancedForm extends PureComponent {
+class AdvancedForm extends PureComponent<Props> {
   render() {
     const { form, dispatch, submitting } = this.props
     const { getFieldDecorator, validateFieldsAndScroll, getFieldsError } = form

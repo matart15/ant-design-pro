@@ -1,7 +1,7 @@
 // @flow
 /* eslint eqeqeq: 0 */
 
-function equal(old, target) {
+function equal(old: Object, target: Object) {
   let r = true
   Object.keys(old).forEach(prop => {
     if (typeof old[prop] === 'function' && typeof target[prop] === 'function') {

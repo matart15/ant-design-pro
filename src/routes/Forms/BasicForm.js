@@ -16,6 +16,8 @@ import {
 import PageHeaderLayout from '../../layouts/PageHeaderLayout'
 import styles from './style.less'
 
+type Props = {| form: Object, submitting: boolean, dispatch: Function |}
+
 const FormItem = Form.Item
 const { Option } = Select
 const { RangePicker } = DatePicker
@@ -25,8 +27,8 @@ const { TextArea } = Input
   submitting: state.form.regularFormSubmitting
 }))
 @Form.create()
-export default class BasicForms extends PureComponent {
-  handleSubmit = e => {
+export default class BasicForms extends PureComponent<Props> {
+  handleSubmit = (e: Object) => {
     e.preventDefault()
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {

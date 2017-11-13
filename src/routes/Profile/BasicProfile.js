@@ -3,10 +3,10 @@ import React, { Component } from 'react'
 import { connect } from 'dva'
 import { Card, Badge, Table, Divider } from 'antd'
 import PageHeaderLayout from '../../layouts/PageHeaderLayout'
-import DescriptionList from '../../components/DescriptionList'
+import { Description, DescriptionList } from '../../components/DescriptionList'
 import styles from './BasicProfile.less'
 
-const { Description } = DescriptionList
+type Props = {| dispatch: Function, profile: Object |}
 
 const progressColumns = [
   {
@@ -45,7 +45,7 @@ const progressColumns = [
 @connect(state => ({
   profile: state.profile
 }))
-export default class BasicProfile extends Component {
+export default class BasicProfile extends Component<Props> {
   componentDidMount() {
     const { dispatch } = this.props
     dispatch({

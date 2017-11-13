@@ -4,7 +4,18 @@ import { Icon } from 'antd'
 import classNames from 'classnames'
 import styles from './index.less'
 
-const Trend = ({ colorful = true, flag, children, className, ...rest }) => {
+const Trend = ({
+  colorful = true,
+  flag,
+  children,
+  className,
+  ...rest
+}: {
+  colorful?: boolean,
+  flag: string,
+  children: any,
+  className?: string
+}) => {
   const classString = classNames(
     styles.trendItem,
     {

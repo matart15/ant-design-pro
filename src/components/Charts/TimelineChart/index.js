@@ -4,12 +4,20 @@ import G2 from 'g2'
 import Slider from 'g2-plugin-slider'
 import styles from './index.less'
 
-class TimelineChart extends Component {
+type Props = {|
+  data: Object[],
+  height?: number,
+  title?: string,
+  margin?: number[],
+  titleMap: Object,
+  borderWidth?: number
+|}
+class TimelineChart extends Component<Props> {
   componentDidMount() {
     this.renderChart(this.props.data)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (nextProps.data !== this.props.data) {
       this.renderChart(nextProps.data)
     }
@@ -24,13 +32,12 @@ class TimelineChart extends Component {
     }
   }
 
+  chart = null
+  slider = null
+  node = null
   sliderId = `timeline-chart-slider-${Math.random() * 1000}`
 
-  handleRef = n => {
-    this.node = n
-  }
-
-  renderChart(data) {
+  renderChart(data: Object[]) {
     const {
       height = 400,
       margin = [60, 20, 40, 40],
@@ -44,7 +51,13 @@ class TimelineChart extends Component {
 
     // clean
     if (this.sliderId) {
-      document.getElementById(this.sliderId).innerHTML = ''
+      const s = document.getElementById(this.sliderId)
+      if (s) {
+        s.innerHTML = ''
+      }
+    }
+    if (!this.node) {
+      return
     }
     this.node.innerHTML = ''
 
@@ -120,7 +133,11 @@ class TimelineChart extends Component {
       <div className={styles.timelineChart} style={{ height }}>
         <div>
           {title && <h4>{title}</h4>}
-          <div ref={this.handleRef} />
+          <div
+            ref={n => {
+              this.node = n
+            }}
+          />
           <div id={this.sliderId} />
         </div>
       </div>

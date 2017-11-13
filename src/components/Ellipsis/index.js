@@ -4,10 +4,27 @@ import { Tooltip } from 'antd'
 import classNames from 'classnames'
 import styles from './index.less'
 
+type Props = {|
+  lines: ?number,
+  cover: boolean,
+  children: Object[],
+  length?: number,
+  suffixColor?: string,
+  suffixOffset?: number,
+  className?: string,
+  tooltip?: boolean,
+  style?: Object
+|}
+type State = {|
+  lineHeight: number,
+  text: string,
+  targetCount: number
+|}
+
 /* eslint react/no-did-mount-set-state: 0 */
 /* eslint no-param-reassign: 0 */
 
-const EllipsisText = ({ text, length, tooltip, ...other }) => {
+const EllipsisText = ({ text, length = 0, tooltip, ...other }) => {
   if (typeof text !== 'string') {
     throw new Error('Ellipsis children must be string.')
   }
@@ -39,7 +56,7 @@ const EllipsisText = ({ text, length, tooltip, ...other }) => {
   )
 }
 
-export default class Ellipsis extends Component {
+export default class Ellipsis extends Component<Props, State> {
   state = {
     lineHeight: 0,
     text: '',
@@ -61,7 +78,7 @@ export default class Ellipsis extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (
       this.props.lines !== nextProps.lines ||
       this.props.cover !== nextProps.cover
@@ -73,15 +90,21 @@ export default class Ellipsis extends Component {
     }
   }
 
+  node: ?Object = null
+  shadow: ?Object = null
+  shadowChildren: ?Object = null
   computeLine = () => {
     const { lines, cover } = this.props
     if (lines && !cover) {
       const fontSize =
         parseInt(window.getComputedStyle(this.node).fontSize, 10) || 14
-      const text = this.shadowChildren.innerText
+      const shadowChildren = this.shadowChildren || {}
+      const text = shadowChildren.innerText
+      const node = this.node || {}
       const targetWidth =
-        (this.node.offsetWidth || this.node.parentNode.offsetWidth) * lines
-      const shadowNode = this.shadow.firstChild
+        (node.offsetWidth || node.parentNode.offsetWidth) * lines
+      const shadow = this.shadow || {}
+      const shadowNode = shadow.firstChild
 
       // bisection
       const tw = targetWidth - lines * (fontSize / 2) - fontSize
@@ -97,7 +120,14 @@ export default class Ellipsis extends Component {
     }
   }
 
-  bisection = (tw, m, b, e, text, shadowNode) => {
+  bisection = (
+    tw: number,
+    m: number,
+    b: number,
+    e: number,
+    text: string,
+    shadowNode: Object
+  ) => {
     let mid = m
     let end = e
     let begin = b
@@ -125,18 +155,6 @@ export default class Ellipsis extends Component {
     end = mid
     mid = Math.floor((end - begin) / 2) + begin
     return this.bisection(tw, mid, begin, end, text, shadowNode)
-  }
-
-  handleRef = n => {
-    this.node = n
-  }
-
-  handleShadow = n => {
-    this.shadow = n
-  }
-
-  handleShadowChildren = n => {
-    this.shadowChildren = n
   }
 
   render() {
@@ -191,7 +209,9 @@ export default class Ellipsis extends Component {
         <div
           {...restProps}
           id={id}
-          ref={this.handleRef}
+          ref={n => {
+            this.node = n
+          }}
           className={cls}
           style={{
             ...restProps.style,
@@ -207,13 +227,26 @@ export default class Ellipsis extends Component {
     const suffix = tooltip ? <Tooltip title={text}>...</Tooltip> : '...'
 
     return (
-      <div {...restProps} ref={this.handleRef} className={cls}>
+      <div
+        {...restProps}
+        ref={n => {
+          this.node = n
+        }}
+        className={cls}>
         {targetCount > 0 && text.substring(0, targetCount)}
         {targetCount > 0 && targetCount < text.length && suffix}
-        <div className={styles.shadow} ref={this.handleShadowChildren}>
+        <div
+          className={styles.shadow}
+          ref={n => {
+            this.shadowChildren = n
+          }}>
           {children}
         </div>
-        <div className={styles.shadow} ref={this.handleShadow}>
+        <div
+          className={styles.shadow}
+          ref={n => {
+            this.shadow = n
+          }}>
           <span>{text}</span>
         </div>
       </div>

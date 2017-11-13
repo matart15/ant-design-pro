@@ -3,6 +3,10 @@ import React, { PureComponent } from 'react'
 import { connect } from 'dva'
 import { Row, Col, Card, Table, Icon, Divider } from 'antd'
 
+type Props = {|
+  dispatch: Function,
+  user: Object
+|}
 const columns = [
   {
     title: 'Name',
@@ -36,7 +40,7 @@ const columns = [
   }
 ]
 
-class Dashboard extends PureComponent {
+class Dashboard extends PureComponent<Props> {
   componentDidMount() {
     this.props.dispatch({
       type: 'user/fetch'

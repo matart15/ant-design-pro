@@ -22,6 +22,19 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout'
 
 import styles from './TableList.less'
 
+type Props = {|
+  form: Object,
+  rule: Object,
+  dispatch: Function
+|}
+type State = {
+  selectedRows: Object[],
+  modalVisible: boolean,
+  addInputValue: string,
+  expandForm: boolean,
+  formValues: Object
+}
+
 const FormItem = Form.Item
 const { Option } = Select
 const getValue = obj =>
@@ -33,7 +46,7 @@ const getValue = obj =>
   rule: state.rule
 }))
 @Form.create()
-export default class TableList extends PureComponent {
+export default class TableList extends PureComponent<Props, State> {
   state = {
     addInputValue: '',
     modalVisible: false,
@@ -49,7 +62,11 @@ export default class TableList extends PureComponent {
     })
   }
 
-  handleStandardTableChange = (pagination, filtersArg, sorter) => {
+  handleStandardTableChange = (
+    pagination: Object,
+    filtersArg: Object,
+    sorter: Object
+  ) => {
     const { dispatch } = this.props
     const { formValues } = this.state
 
@@ -90,7 +107,7 @@ export default class TableList extends PureComponent {
     })
   }
 
-  handleMenuClick = e => {
+  handleMenuClick = (e: Object) => {
     const { dispatch } = this.props
     const { selectedRows } = this.state
 
@@ -115,13 +132,13 @@ export default class TableList extends PureComponent {
     }
   }
 
-  handleSelectRows = rows => {
+  handleSelectRows = (rows: Object[]) => {
     this.setState({
       selectedRows: rows
     })
   }
 
-  handleSearch = e => {
+  handleSearch = (e: Object) => {
     e.preventDefault()
 
     const { dispatch, form } = this.props
@@ -145,13 +162,13 @@ export default class TableList extends PureComponent {
     })
   }
 
-  handleModalVisible = flag => {
+  handleModalVisible = (flag?: boolean) => {
     this.setState({
       modalVisible: !!flag
     })
   }
 
-  handleAddInput = e => {
+  handleAddInput = (e: Object) => {
     this.setState({
       addInputValue: e.target.value
     })

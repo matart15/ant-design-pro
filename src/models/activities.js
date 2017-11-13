@@ -10,7 +10,10 @@ export default {
   },
 
   effects: {
-    *fetchList(_, { call, put }) {
+    *fetchList(
+      _: any,
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       yield put({
         type: 'changeLoading',
         payload: true
@@ -28,13 +31,13 @@ export default {
   },
 
   reducers: {
-    saveList(state, action) {
+    saveList(state: Object, action: Object) {
       return {
         ...state,
         list: action.payload
       }
     },
-    changeLoading(state, action) {
+    changeLoading(state: Object, action: Object) {
       return {
         ...state,
         loading: action.payload

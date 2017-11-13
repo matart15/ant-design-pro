@@ -9,10 +9,16 @@ import styles from './index.less'
 /* eslint no-underscore-dangle: 0 */
 /* eslint no-param-reassign: 0 */
 
+type Props = {|
+  data: Object[],
+  height: number,
+  className?: string
+|}
+
 const imgUrl =
   'https://gw.alipayobjects.com/zos/rmsportal/gWyeGLCdFFRavBGIDzWk.png'
 
-class TagCloud extends PureComponent {
+class TagCloud extends PureComponent<Props> {
   componentDidMount() {
     this.initTagCloud()
     this.renderChart()
@@ -20,7 +26,7 @@ class TagCloud extends PureComponent {
     window.addEventListener('resize', this.resize)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (this.props.data !== nextProps.data) {
       this.renderChart(nextProps.data)
     }
@@ -30,6 +36,8 @@ class TagCloud extends PureComponent {
     window.removeEventListener('resize', this.resize)
   }
 
+  node = null
+  root: ?Object = null
   resize = () => {
     this.renderChart()
   }
@@ -72,16 +80,8 @@ class TagCloud extends PureComponent {
     })
   }
 
-  saveRootRef = node => {
-    this.root = node
-  }
-
-  saveNodeRef = node => {
-    this.node = node
-  }
-
   @Debounce(500)
-  renderChart = newData => {
+  renderChart = (newData?: Object[]) => {
     const data = newData || this.props.data
     if (!data || data.length < 1) {
       return
@@ -162,9 +162,16 @@ class TagCloud extends PureComponent {
     return (
       <div
         className={classNames(styles.tagCloud, this.props.className)}
-        ref={this.saveRootRef}
+        ref={node => {
+          this.root = node
+        }}
         style={{ width: '100%' }}>
-        <div ref={this.saveNodeRef} style={{ height: this.props.height }} />
+        <div
+          ref={node => {
+            this.node = node
+          }}
+          style={{ height: this.props.height }}
+        />
       </div>
     )
   }

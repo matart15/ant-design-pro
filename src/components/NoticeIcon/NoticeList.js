@@ -12,6 +12,14 @@ export default function NoticeList({
   locale,
   emptyText,
   emptyImage
+}: {
+  data?: Object[],
+  onClick: Function,
+  onClear: Function,
+  title: string,
+  locale: Object,
+  emptyText: string,
+  emptyImage: Object
 }) {
   if (data.length === 0) {
     return (

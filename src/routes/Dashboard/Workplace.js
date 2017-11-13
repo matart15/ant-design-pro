@@ -11,6 +11,13 @@ import { Radar } from '../../components/Charts'
 
 import styles from './Workplace.less'
 
+type Props = {|
+  project: Object,
+  activities: Object,
+  chart: Object,
+  dispatch: Function
+|}
+
 const links = [
   {
     title: '操作一',
@@ -76,7 +83,7 @@ const members = [
   activities: state.activities,
   chart: state.chart
 }))
-export default class Workplace extends PureComponent {
+export default class Workplace extends PureComponent<Props> {
   componentDidMount() {
     const { dispatch } = this.props
     dispatch({

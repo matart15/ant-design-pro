@@ -8,10 +8,15 @@ import Ellipsis from '../../components/Ellipsis'
 
 import styles from './CardList.less'
 
+type Props = {|
+  list: Object,
+  dispatch: Function
+|}
+
 @connect(state => ({
   list: state.list
 }))
-export default class CardList extends PureComponent {
+export default class CardList extends PureComponent<Props> {
   componentDidMount() {
     this.props.dispatch({
       type: 'list/fetch',

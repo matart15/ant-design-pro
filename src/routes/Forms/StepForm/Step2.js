@@ -5,7 +5,19 @@ import { routerRedux } from 'dva/router'
 import { digitUppercase } from '../../../utils/utils'
 import styles from './style.less'
 
-export default ({ formItemLayout, form, data, dispatch, submitting }) => {
+export default ({
+  formItemLayout,
+  form,
+  data,
+  dispatch,
+  submitting
+}: {|
+  formItemLayout: Object,
+  form: Object,
+  data: Object,
+  dispatch: Function,
+  submitting: boolean
+|}) => {
   const { getFieldDecorator, validateFields } = form
   const onPrev = () => {
     dispatch(routerRedux.push('/form/step-form'))

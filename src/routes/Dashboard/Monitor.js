@@ -11,12 +11,14 @@ import ActiveChart from '../../components/ActiveChart'
 
 import styles from './Monitor.less'
 
+type Props = {| monitor: Object, dispatch: Function |}
+
 const targetTime = new Date().getTime() + 3900000
 
 @connect(state => ({
   monitor: state.monitor
 }))
-export default class Monitor extends PureComponent {
+export default class Monitor extends PureComponent<Props> {
   componentDidMount() {
     this.props.dispatch({
       type: 'monitor/fetchTags'
@@ -52,7 +54,7 @@ export default class Monitor extends PureComponent {
                 <Col md={6} sm={12} xs={24}>
                   <NumberInfo
                     subTitle="活动剩余时间"
-                    total={<CountDown target={targetTime} />}
+                    total={<CountDown target={new Date(targetTime)} />}
                   />
                 </Col>
                 <Col md={6} sm={12} xs={24}>

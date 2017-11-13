@@ -1,6 +1,5 @@
 // @flow
-import DescriptionList from './DescriptionList'
-import Description from './Description'
+export { default as DescriptionList } from './DescriptionList'
+export { default as Description } from './Description'
 
-DescriptionList.Description = Description
-export default DescriptionList
+// export default { DescriptionList, Description }

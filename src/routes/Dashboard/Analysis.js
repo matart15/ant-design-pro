@@ -32,6 +32,17 @@ import { getTimeDistance } from '../../utils/utils'
 
 import styles from './Analysis.less'
 
+type Props = {|
+  chart: Object,
+  dispatch: Function
+|}
+type State = {|
+  loading: boolean,
+  salesType: string,
+  currentTabKey: string,
+  rangePickerValue: Object[]
+|}
+
 const { TabPane } = Tabs
 const { RangePicker } = DatePicker
 
@@ -46,7 +57,7 @@ for (let i = 0; i < 7; i += 1) {
 @connect(state => ({
   chart: state.chart
 }))
-export default class Analysis extends Component {
+export default class Analysis extends Component<Props, State> {
   state = {
     loading: true,
     salesType: 'all',
@@ -69,19 +80,19 @@ export default class Analysis extends Component {
     })
   }
 
-  handleChangeSalesType = e => {
+  handleChangeSalesType = (e: Object) => {
     this.setState({
       salesType: e.target.value
     })
   }
 
-  handleTabChange = key => {
+  handleTabChange = (key: string) => {
     this.setState({
       currentTabKey: key
     })
   }
 
-  handleRangePickerChange = rangePickerValue => {
+  handleRangePickerChange = (rangePickerValue: Object[]) => {
     this.setState({
       rangePickerValue
     })
@@ -91,7 +102,7 @@ export default class Analysis extends Component {
     })
   }
 
-  selectDate = type => {
+  selectDate = (type: string) => {
     this.setState({
       rangePickerValue: getTimeDistance(type)
     })
@@ -101,7 +112,7 @@ export default class Analysis extends Component {
     })
   }
 
-  isActive(type) {
+  isActive(type: string) {
     const { rangePickerValue } = this.state
     const value = getTimeDistance(type)
     if (!rangePickerValue[0] || !rangePickerValue[1]) {
@@ -159,22 +170,22 @@ export default class Analysis extends Component {
       <div className={styles.salesExtraWrap}>
         <div className={styles.salesExtra}>
           <a
-            className={this.isActive('today')}
+            className={this.isActive('today') || ''}
             onClick={() => this.selectDate('today')}>
             今日
           </a>
           <a
-            className={this.isActive('week')}
+            className={this.isActive('week') || ''}
             onClick={() => this.selectDate('week')}>
             本周
           </a>
           <a
-            className={this.isActive('month')}
+            className={this.isActive('month') || ''}
             onClick={() => this.selectDate('month')}>
             本月
           </a>
           <a
-            className={this.isActive('year')}
+            className={this.isActive('year') || ''}
             onClick={() => this.selectDate('year')}>
             全年
           </a>
@@ -229,15 +240,15 @@ export default class Analysis extends Component {
             subTitle="转化率"
             gap={2}
             total={`${data.cvr * 100}%`}
-            theme={currentKey !== data.name && 'light'}
+            theme={currentKey !== data.name ? currentKey : 'light'}
           />
         </Col>
         <Col span={12} style={{ paddingTop: 36 }}>
           <Pie
             animate={false}
-            color={currentKey !== data.name && '#BDE4FF'}
+            color={currentKey !== data.name ? '' : '#BDE4FF'}
             inner={0.55}
-            tooltip={false}
+            tooltips={false}
             margin={[0, 0, 0, 0]}
             percent={data.cvr * 100}
             height={64}

@@ -14,7 +14,10 @@ export default {
   },
 
   effects: {
-    *fetchBasic(_, { call, put }) {
+    *fetchBasic(
+      _: any,
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       yield put({
         type: 'changeLoading',
         payload: { basicLoading: true }
@@ -29,7 +32,10 @@ export default {
         payload: { basicLoading: false }
       })
     },
-    *fetchAdvanced(_, { call, put }) {
+    *fetchAdvanced(
+      _: any,
+      { call, put }: { call: Function, put: Function }
+    ): Generator<*, *, *> {
       yield put({
         type: 'changeLoading',
         payload: { advancedLoading: true }
@@ -47,13 +53,13 @@ export default {
   },
 
   reducers: {
-    show(state, { payload }) {
+    show(state: Object, { payload }: { payload: Object }) {
       return {
         ...state,
         ...payload
       }
     },
-    changeLoading(state, { payload }) {
+    changeLoading(state: Object, { payload }: { payload: Object }) {
       return {
         ...state,
         ...payload

@@ -6,7 +6,7 @@ import zhCN from 'antd/lib/locale-provider/zh_CN'
 import BasicLayout from './layouts/BasicLayout'
 import UserLayout from './layouts/UserLayout'
 
-function RouterConfig({ history }) {
+function RouterConfig({ history }: { history: Object }) {
   return (
     <LocaleProvider locale={zhCN}>
       <Router history={history}>

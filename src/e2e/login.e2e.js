@@ -23,7 +23,7 @@ describe('Login', () => {
       .type('#password', '888888')
       .click('button[type="submit"]')
       .wait('.ant-layout-sider h1') // should display error
-      .evaluate(() => document.body.innerHTML)
+      .evaluate(() => (document.body ? document.body.innerHTML : null))
       .end()
     expect(text).toContain('<h1>Ant Design Pro</h1>')
   })

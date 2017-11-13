@@ -19,15 +19,25 @@ import {
 } from 'antd'
 import classNames from 'classnames'
 import PageHeaderLayout from '../../layouts/PageHeaderLayout'
-import DescriptionList from '../../components/DescriptionList'
+import { DescriptionList, Description } from '../../components/DescriptionList'
 import styles from './AdvancedProfile.less'
 
+type Props = {|
+  dispatch: Function,
+  profile: Object
+|}
+type State = {
+  operationkey: string,
+  stepDirection: string
+}
+
 const { Step } = Steps
-const { Description } = DescriptionList
 const ButtonGroup = Button.Group
 
 const getWindowWidth = () =>
-  window.innerWidth || document.documentElement.clientWidth
+  window.innerWidth ||
+  (document.documentElement && document.documentElement.clientWidth) ||
+  0
 
 const menu = (
   <Menu>
@@ -66,7 +76,7 @@ const extra = (
 )
 
 const description = (
-  <DescriptionList className={styles.headerList} size="small" col="2">
+  <DescriptionList className={styles.headerList} size="small" col={2}>
     <Description term="创建人">曲丽丽</Description>
     <Description term="订购产品">XX 服务</Description>
     <Description term="创建时间">2017-07-07</Description>
@@ -187,7 +197,7 @@ const columns = [
 @connect(state => ({
   profile: state.profile
 }))
-export default class AdvancedProfile extends Component {
+export default class AdvancedProfile extends Component<Props, State> {
   state = {
     operationkey: 'tab1',
     stepDirection: 'horizontal'
@@ -207,7 +217,7 @@ export default class AdvancedProfile extends Component {
     window.removeEventListener('resize', this.setStepDirection)
   }
 
-  onOperationTabChange = key => {
+  onOperationTabChange = (key: string) => {
     this.setState({ operationkey: key })
   }
 
@@ -332,7 +342,7 @@ export default class AdvancedProfile extends Component {
               size="small"
               style={{ marginBottom: 16 }}
               title="组名称"
-              col="1">
+              col={1}>
               <Description term="学名">
                 Citrullus lanatus (Thunb.) Matsum. et
                 Nakai一年生蔓生藤本；茎、枝粗壮，具明显的棱。卷须较粗..

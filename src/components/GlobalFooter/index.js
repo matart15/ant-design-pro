@@ -3,7 +3,15 @@ import React from 'react'
 import classNames from 'classnames'
 import styles from './index.less'
 
-export default ({ className, links, copyright }) => {
+export default ({
+  className,
+  links,
+  copyright
+}: {
+  className?: string,
+  links: Object[],
+  copyright: Object
+}) => {
   const clsString = classNames(styles.globalFooter, className)
   return (
     <div className={clsString}>

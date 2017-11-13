@@ -8,6 +8,7 @@ import GlobalFooter from '../components/GlobalFooter'
 import styles from './UserLayout.less'
 import { getRouteData } from '../utils/utils'
 
+type Props = {| location: Object |}
 const links = [
   {
     title: '帮助',
@@ -29,7 +30,7 @@ const copyright = (
   </div>
 )
 
-class UserLayout extends React.PureComponent {
+class UserLayout extends React.PureComponent<Props> {
   static childContextTypes = {
     location: PropTypes.object
   }

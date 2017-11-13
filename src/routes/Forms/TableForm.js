@@ -3,30 +3,47 @@ import React, { PureComponent } from 'react'
 import { Table, Button, Input, message, Popconfirm, Divider } from 'antd'
 import styles from './style.less'
 
-export default class TableForm extends PureComponent {
-  constructor(props) {
+type Props = {|
+  form?: Object,
+  value?: Object[],
+  dispatch?: Function,
+  onChange?: Function
+|}
+type State = {
+  data: Object[]
+}
+
+export default class TableForm extends PureComponent<Props, State> {
+  constructor(props: Props) {
     super(props)
 
     this.state = {
-      data: props.value
+      data: props.value || []
     }
   }
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if ('value' in nextProps) {
       this.setState({
         data: nextProps.value
       })
     }
   }
-  getRowByKey(key) {
+  getRowByKey(key: string) {
     return this.state.data.filter(item => item.key === key)[0]
   }
   index = 0
   cacheOriginData = {}
-  handleSubmit = e => {
+  clickedCancel = null
+  handleSubmit = (e: Object) => {
     e.preventDefault()
+    if (!this.props.form) {
+      return
+    }
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        if (!this.props.dispatch) {
+          return
+        }
         this.props.dispatch({
           type: 'form/submit',
           payload: values
@@ -34,7 +51,7 @@ export default class TableForm extends PureComponent {
       }
     })
   }
-  toggleEditable(e, key) {
+  toggleEditable(e: Object, key: string) {
     e.preventDefault()
     const target = this.getRowByKey(key)
     if (target) {
@@ -46,10 +63,10 @@ export default class TableForm extends PureComponent {
       this.setState({ data: [...this.state.data] })
     }
   }
-  remove(key) {
+  remove(key: string) {
     const newData = this.state.data.filter(item => item.key !== key)
     this.setState({ data: newData })
-    this.props.onChange(newData)
+    if (this.props.onChange) this.props.onChange(newData)
   }
   newMember = () => {
     const newData = [...this.state.data]
@@ -64,12 +81,12 @@ export default class TableForm extends PureComponent {
     this.index += 1
     this.setState({ data: newData })
   }
-  handleKeyPress(e, key) {
+  handleKeyPress(e: Object, key: string) {
     if (e.key === 'Enter') {
       this.saveRow(e, key)
     }
   }
-  handleFieldChange(e, fieldName, key) {
+  handleFieldChange(e: Object, fieldName: string, key: string) {
     const newData = [...this.state.data]
     const target = this.getRowByKey(key)
     if (target) {
@@ -77,14 +94,12 @@ export default class TableForm extends PureComponent {
       this.setState({ data: newData })
     }
   }
-  saveRow(e, key) {
+  saveRow(e: Object, key: string) {
     e.persist()
     // save field when blur input
     setTimeout(() => {
-      if (
-        document.activeElement.tagName === 'INPUT' &&
-        document.activeElement !== e.target
-      ) {
+      const activeElement = document.activeElement || {}
+      if (activeElement.tagName === 'INPUT' && activeElement !== e.target) {
         return
       }
       if (this.clickedCancel) {
@@ -99,10 +114,10 @@ export default class TableForm extends PureComponent {
       }
       delete target.isNew
       this.toggleEditable(e, key)
-      this.props.onChange(this.state.data)
+      if (this.props.onChange) this.props.onChange(this.state.data)
     }, 10)
   }
-  cancel(e, key) {
+  cancel(e: Object, key: string) {
     this.clickedCancel = true
     e.preventDefault()
     const target = this.getRowByKey(key)

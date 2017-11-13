@@ -5,9 +5,33 @@ import { Tag, Icon } from 'antd'
 
 import styles from './index.less'
 
+type Props = {|
+  onChange: Function,
+  children: Object[],
+  className?: string,
+  style?: Object,
+  initialValue?: string[],
+  expandable: boolean
+|}
+type State = {|
+  checkedAll: boolean,
+  expand: boolean,
+  checkedTags: string[]
+|}
+
 const { CheckableTag } = Tag
 
-const TagSelectOption = ({ children, checked, onChange, value }) => (
+const TagSelectOption = ({
+  children,
+  checked,
+  onChange = () => {},
+  value
+}: {
+  children: string,
+  checked?: boolean,
+  onChange?: Function,
+  value: string
+}) => (
   <CheckableTag
     checked={checked}
     key={value}
@@ -15,22 +39,22 @@ const TagSelectOption = ({ children, checked, onChange, value }) => (
     {children}
   </CheckableTag>
 )
-TagSelectOption.defaultProps = {
-  displayName: 'TagSelectOption'
-}
+// TagSelectOption.defaultProps = {
+//   displayName: 'TagSelectOption'
+// }
 
-class TagSelect extends Component {
+class TagSelect extends Component<Props, State> {
   static defaultProps = {
     initialValue: []
   }
-
+  static Option = TagSelectOption
   state = {
     checkedAll: false,
     expand: false,
     checkedTags: this.props.initialValue || []
   }
 
-  onSelectAll = checked => {
+  onSelectAll = (checked: boolean) => {
     const { onChange } = this.props
     let checkedTags = []
     if (checked) {
@@ -55,7 +79,7 @@ class TagSelect extends Component {
     return checkedTags
   }
 
-  handleTagChange = (value, checked) => {
+  handleTagChange = (value: string, checked: boolean) => {
     const { onChange } = this.props
     const { checkedTags } = this.state
 
@@ -120,7 +144,5 @@ class TagSelect extends Component {
     )
   }
 }
-
-TagSelect.Option = TagSelectOption
 
 export default TagSelect

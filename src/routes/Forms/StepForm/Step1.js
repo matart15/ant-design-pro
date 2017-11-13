@@ -6,7 +6,15 @@ import styles from './style.less'
 
 const { Option } = Select
 
-export default ({ formItemLayout, form, dispatch }) => {
+export default ({
+  formItemLayout,
+  form,
+  dispatch
+}: {
+  formItemLayout: Object,
+  form: Object,
+  dispatch: Function
+}) => {
   const { getFieldDecorator, validateFields } = form
   const onValidateForm = () => {
     validateFields((err, values) => {

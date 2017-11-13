@@ -24,6 +24,11 @@ import TagSelect from '../../components/TagSelect'
 
 import styles from './FilterCardList.less'
 
+type Props = {|
+  form: Object,
+  list: Object,
+  dispatch: Function
+|}
 const { Option } = Select
 const FormItem = Form.Item
 
@@ -49,7 +54,7 @@ const formatWan = val => {
 @connect(state => ({
   list: state.list
 }))
-export default class FilterCardList extends PureComponent {
+export default class FilterCardList extends PureComponent<Props> {
   componentDidMount() {
     this.props.dispatch({
       type: 'list/fetch',
@@ -77,7 +82,7 @@ export default class FilterCardList extends PureComponent {
     }, 0)
   }
 
-  handleTabChange = key => {
+  handleTabChange = (key: string) => {
     const { dispatch } = this.props
     switch (key) {
       case 'doc':

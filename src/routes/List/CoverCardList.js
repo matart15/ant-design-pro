@@ -12,6 +12,11 @@ import AvatarList from '../../components/AvatarList'
 
 import styles from './CoverCardList.less'
 
+type Props = {|
+  form: Object,
+  list: Object,
+  dispatch: Function
+|}
 const { Option } = Select
 const FormItem = Form.Item
 
@@ -20,7 +25,7 @@ const FormItem = Form.Item
 @connect(state => ({
   list: state.list
 }))
-export default class CoverCardList extends PureComponent {
+export default class CoverCardList extends PureComponent<Props> {
   componentDidMount() {
     this.props.dispatch({
       type: 'list/fetch',
@@ -48,7 +53,7 @@ export default class CoverCardList extends PureComponent {
     }, 0)
   }
 
-  handleTabChange = key => {
+  handleTabChange = (key: string) => {
     const { dispatch } = this.props
     switch (key) {
       case 'doc':
