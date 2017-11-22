@@ -1,45 +1,22 @@
-// @flow
-import BasicLayout from '../layouts/BasicLayout'
-import UserLayout from '../layouts/UserLayout'
-import BlankLayout from '../layouts/BlankLayout'
+import dynamic from 'dva/dynamic'
 
-import Analysis from '../routes/Dashboard/Analysis'
-import Monitor from '../routes/Dashboard/Monitor'
-import Workplace from '../routes/Dashboard/Workplace'
+// wrapper of dynamic
+const dynamicWrapper = (app, models, component) =>
+  dynamic({
+    app,
+    models: () => models.map(m => import(`../models/${m}.js`)),
+    component
+  })
 
-import TableList from '../routes/List/TableList'
-import CoverCardList from '../routes/List/CoverCardList'
-import CardList from '../routes/List/CardList'
-import FilterCardList from '../routes/List/FilterCardList'
-import SearchList from '../routes/List/SearchList'
-import BasicList from '../routes/List/BasicList'
-
-import BasicProfile from '../routes/Profile/BasicProfile'
-import AdvancedProfile from '../routes/Profile/AdvancedProfile'
-
-import BasicForm from '../routes/Forms/BasicForm'
-import AdvancedForm from '../routes/Forms/AdvancedForm'
-import StepForm from '../routes/Forms/StepForm'
-import Step2 from '../routes/Forms/StepForm/Step2'
-import Step3 from '../routes/Forms/StepForm/Step3'
-
-import Exception403 from '../routes/Exception/403'
-import Exception404 from '../routes/Exception/404'
-import Exception500 from '../routes/Exception/500'
-
-import Success from '../routes/Result/Success'
-import Error from '../routes/Result/Error'
-
-import Login from '../routes/User/Login'
-import Register from '../routes/User/Register'
-import RegisterResult from '../routes/User/RegisterResult'
-
-const data = [
+// nav data
+export const getNavData = app => [
   {
-    component: BasicLayout,
+    component: dynamicWrapper(app, ['user', 'login'], () =>
+      import('../layouts/BasicLayout')
+    ),
     layout: 'BasicLayout',
     name: '首页', // for breadcrumb
-    path: '',
+    path: '/',
     children: [
       {
         name: 'Dashboard',
@@ -49,17 +26,25 @@ const data = [
           {
             name: '分析页',
             path: 'analysis',
-            component: Analysis
+            component: dynamicWrapper(app, ['chart'], () =>
+              import('../routes/Dashboard/Analysis')
+            )
           },
           {
             name: '监控页',
             path: 'monitor',
-            component: Monitor
+            component: dynamicWrapper(app, ['monitor'], () =>
+              import('../routes/Dashboard/Monitor')
+            )
           },
           {
             name: '工作台',
             path: 'workplace',
-            component: Workplace
+            component: dynamicWrapper(
+              app,
+              ['project', 'activities', 'chart'],
+              () => import('../routes/Dashboard/Workplace')
+            )
           }
         ]
       },
@@ -71,27 +56,37 @@ const data = [
           {
             name: '基础表单',
             path: 'basic-form',
-            component: BasicForm
+            component: dynamicWrapper(app, ['form'], () =>
+              import('../routes/Forms/BasicForm')
+            )
           },
           {
             name: '分步表单',
             path: 'step-form',
-            component: StepForm,
+            component: dynamicWrapper(app, ['form'], () =>
+              import('../routes/Forms/StepForm')
+            ),
             children: [
               {
                 path: 'confirm',
-                component: Step2
+                component: dynamicWrapper(app, ['form'], () =>
+                  import('../routes/Forms/StepForm/Step2')
+                )
               },
               {
                 path: 'result',
-                component: Step3
+                component: dynamicWrapper(app, ['form'], () =>
+                  import('../routes/Forms/StepForm/Step3')
+                )
               }
             ]
           },
           {
             name: '高级表单',
             path: 'advanced-form',
-            component: AdvancedForm
+            component: dynamicWrapper(app, ['form'], () =>
+              import('../routes/Forms/AdvancedForm')
+            )
           }
         ]
       },
@@ -103,32 +98,44 @@ const data = [
           {
             name: '查询表格',
             path: 'table-list',
-            component: TableList
+            component: dynamicWrapper(app, ['rule'], () =>
+              import('../routes/List/TableList')
+            )
           },
           {
             name: '标准列表',
             path: 'basic-list',
-            component: BasicList
+            component: dynamicWrapper(app, ['list'], () =>
+              import('../routes/List/BasicList')
+            )
           },
           {
             name: '卡片列表',
             path: 'card-list',
-            component: CardList
+            component: dynamicWrapper(app, ['list'], () =>
+              import('../routes/List/CardList')
+            )
           },
           {
             name: '搜索列表（项目）',
             path: 'cover-card-list',
-            component: CoverCardList
+            component: dynamicWrapper(app, ['list'], () =>
+              import('../routes/List/CoverCardList')
+            )
           },
           {
             name: '搜索列表（应用）',
             path: 'filter-card-list',
-            component: FilterCardList
+            component: dynamicWrapper(app, ['list'], () =>
+              import('../routes/List/FilterCardList')
+            )
           },
           {
             name: '搜索列表（文章）',
             path: 'search',
-            component: SearchList
+            component: dynamicWrapper(app, ['list'], () =>
+              import('../routes/List/SearchList')
+            )
           }
         ]
       },
@@ -140,12 +147,16 @@ const data = [
           {
             name: '基础详情页',
             path: 'basic',
-            component: BasicProfile
+            component: dynamicWrapper(app, ['profile'], () =>
+              import('../routes/Profile/BasicProfile')
+            )
           },
           {
             name: '高级详情页',
             path: 'advanced',
-            component: AdvancedProfile
+            component: dynamicWrapper(app, ['profile'], () =>
+              import('../routes/Profile/AdvancedProfile')
+            )
           }
         ]
       },
@@ -157,12 +168,16 @@ const data = [
           {
             name: '成功',
             path: 'success',
-            component: Success
+            component: dynamicWrapper(app, [], () =>
+              import('../routes/Result/Success')
+            )
           },
           {
             name: '失败',
             path: 'fail',
-            component: Error
+            component: dynamicWrapper(app, [], () =>
+              import('../routes/Result/Error')
+            )
           }
         ]
       },
@@ -174,24 +189,31 @@ const data = [
           {
             name: '403',
             path: '403',
-            component: Exception403
+            component: dynamicWrapper(app, [], () =>
+              import('../routes/Exception/403')
+            )
           },
           {
             name: '404',
             path: '404',
-            component: Exception404
+            component: dynamicWrapper(app, [], () =>
+              import('../routes/Exception/404')
+            )
           },
           {
             name: '500',
             path: '500',
-            component: Exception500
+            component: dynamicWrapper(app, [], () =>
+              import('../routes/Exception/500')
+            )
           }
         ]
       }
     ]
   },
   {
-    component: UserLayout,
+    component: dynamicWrapper(app, [], () => import('../layouts/UserLayout')),
+    path: '/user',
     layout: 'UserLayout',
     children: [
       {
@@ -202,24 +224,30 @@ const data = [
           {
             name: '登录',
             path: 'login',
-            component: Login
+            component: dynamicWrapper(app, ['login'], () =>
+              import('../routes/User/Login')
+            )
           },
           {
             name: '注册',
             path: 'register',
-            component: Register
+            component: dynamicWrapper(app, ['register'], () =>
+              import('../routes/User/Register')
+            )
           },
           {
             name: '注册结果',
             path: 'register-result',
-            component: RegisterResult
+            component: dynamicWrapper(app, [], () =>
+              import('../routes/User/RegisterResult')
+            )
           }
         ]
       }
     ]
   },
   {
-    component: BlankLayout,
+    component: dynamicWrapper(app, [], () => import('../layouts/BlankLayout')),
     layout: 'BlankLayout',
     children: {
       name: '使用文档',
@@ -229,9 +257,4 @@ const data = [
     }
   }
 ]
-
-export function getNavData() {
-  return data
-}
-
-export default data
+export default { getNavData }

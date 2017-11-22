@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react'
+import Bind from 'lodash-decorators/bind'
 import Debounce from 'lodash-decorators/debounce'
 import { connect } from 'dva'
 import {
@@ -130,9 +131,9 @@ const popoverContent = (
         text={<span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>未响应</span>}
       />
     </span>
-    <p className={styles.textSecondary} style={{ marginTop: 4 }}>
+    <div className={styles.textSecondary} style={{ marginTop: 4 }}>
       耗时：2小时25分钟
-    </p>
+    </div>
   </div>
 )
 
@@ -215,14 +216,16 @@ export default class AdvancedProfile extends Component<Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.setStepDirection)
+    this.setStepDirection.cancel()
   }
 
   onOperationTabChange = (key: string) => {
     this.setState({ operationkey: key })
   }
 
+  @Bind()
   @Debounce(200)
-  setStepDirection = () => {
+  setStepDirection() {
     const { stepDirection } = this.state
     const w = getWindowWidth()
     if (stepDirection !== 'vertical' && w <= 576) {

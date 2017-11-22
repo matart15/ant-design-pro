@@ -113,19 +113,31 @@ export default class BasicProfile extends Component<Props> {
         title: '单价',
         dataIndex: 'price',
         key: 'price',
-        className: 'col-money',
+        align: 'right',
         render: renderContent
       },
       {
         title: '数量（件）',
         dataIndex: 'num',
         key: 'num',
-        className: 'col-money',
+        align: 'right',
         render: (text, row, index) => {
           if (index < basicGoods.length) {
             return text
           }
           return <span style={{ fontWeight: 600 }}>{text}</span>
+        }
+      },
+      {
+        title: '金额',
+        dataIndex: 'amount',
+        key: 'amount',
+        align: 'right',
+        render: (text, row, index) => {
+          if (index < basicGoods.length) {
+            return text
+          }
+          return null
         }
       },
       {
@@ -169,6 +181,7 @@ export default class BasicProfile extends Component<Props> {
           <Divider style={{ marginBottom: 32 }} />
           <div className={styles.title}>退货商品</div>
           <Table
+            key="1"
             style={{ marginBottom: 24 }}
             pagination={false}
             loading={basicLoading}
@@ -178,6 +191,7 @@ export default class BasicProfile extends Component<Props> {
           />
           <div className={styles.title}>退货进度</div>
           <Table
+            key="2"
             style={{ marginBottom: 16 }}
             pagination={false}
             loading={basicLoading}

@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react'
 import classNames from 'classnames'
 import G2 from 'g2'
 import Cloud from 'g-cloud'
+import Bind from 'lodash-decorators/bind'
 import Debounce from 'lodash-decorators/debounce'
 import styles from './index.less'
 
@@ -34,11 +35,12 @@ class TagCloud extends PureComponent<Props> {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize)
+    this.renderChart.cancel()
   }
 
   node = null
   root: ?Object = null
-  resize = () => {
+  resize() {
     this.renderChart()
   }
 
@@ -80,8 +82,9 @@ class TagCloud extends PureComponent<Props> {
     })
   }
 
+  @Bind()
   @Debounce(500)
-  renderChart = (newData?: Object[]) => {
+  renderChart(newData?: Object[]) {
     const data = newData || this.props.data
     if (!data || data.length < 1) {
       return

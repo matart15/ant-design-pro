@@ -1,7 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react'
 import moment from 'moment'
-import { Table, Alert, Badge } from 'antd'
+import { Table, Alert, Badge, Divider } from 'antd'
 import styles from './index.less'
 
 type Props = {|
@@ -81,7 +81,8 @@ class StandardTable extends PureComponent<Props, State> {
         title: '服务调用次数',
         dataIndex: 'callNo',
         sorter: true,
-        render: val => <p style={{ textAlign: 'center' }}>{val} 万</p>
+        align: 'right',
+        render: val => `${val} 万`
       },
       {
         title: '状态',
@@ -117,11 +118,11 @@ class StandardTable extends PureComponent<Props, State> {
       {
         title: '操作',
         render: () => (
-          <p>
+          <div>
             <a href="">配置</a>
-            <span className={styles.splitLine} />
+            <Divider type="vertical" />
             <a href="">订阅警报</a>
-          </p>
+          </div>
         )
       }
     ]
@@ -145,7 +146,7 @@ class StandardTable extends PureComponent<Props, State> {
         <div className={styles.tableAlert}>
           <Alert
             message={
-              <p>
+              <div>
                 已选择{' '}
                 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a>{' '}
                 项&nbsp;&nbsp; 服务调用总计{' '}
@@ -153,7 +154,7 @@ class StandardTable extends PureComponent<Props, State> {
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>
                   清空
                 </a>
-              </p>
+              </div>
             }
             type="info"
             showIcon

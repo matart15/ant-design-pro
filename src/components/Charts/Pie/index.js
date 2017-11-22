@@ -4,6 +4,7 @@ import G2 from 'g2'
 import { Divider } from 'antd'
 import classNames from 'classnames'
 import ReactFitText from 'react-fittext'
+import Bind from 'lodash-decorators/bind'
 import Debounce from 'lodash-decorators/debounce'
 import equal from '../equal'
 import styles from './index.less'
@@ -55,13 +56,15 @@ class Pie extends Component<Props, State> {
     if (this.chart) {
       this.chart.destroy()
     }
+    this.resize.cancel()
   }
 
   chart: ?Object = null
   node: ?Object = null
   root: ?Object = null
-  @Debounce(200)
-  resize = () => {
+  @Bind()
+  @Debounce(300)
+  resize() {
     const { hasLegend } = this.props
     if (!hasLegend || !this.root) {
       window.removeEventListener('resize', this.resize)
@@ -264,7 +267,7 @@ class Pie extends Component<Props, State> {
               <div className={styles.total}>
                 {subTitle && <h4 className="pie-sub-title">{subTitle}</h4>}
                 {total && (
-                  <p
+                  <div
                     className="pie-stat"
                     dangerouslySetInnerHTML={{ __html: total }}
                   />

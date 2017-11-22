@@ -99,7 +99,7 @@ export default class CardList extends PureComponent<Props> {
                       }
                       title={<a href="#">{item.title}</a>}
                       description={
-                        <Ellipsis lines={3} cover suffixOffset={2}>
+                        <Ellipsis className={styles.item} lines={3}>
                           {item.description}
                         </Ellipsis>
                       }

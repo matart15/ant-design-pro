@@ -227,11 +227,12 @@ export default class Analysis extends Component<Props, State> {
             <span style={{ marginRight: 4 }}>{text}%</span>
           </Trend>
         ),
-        className: styles.alignRight
+        align: 'right'
       }
     ]
 
     const activeKey = currentTabKey || (offlineData[0] && offlineData[0].name)
+
     const CustomTab = ({ data, currentTabKey: currentKey }) => (
       <Row gutter={8} style={{ width: 138, margin: '8px 0' }}>
         <Col span={12}>

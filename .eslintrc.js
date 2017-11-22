@@ -28,6 +28,7 @@ module.exports = {
   "globals": {
     "document": false,
     "jasmine": false,
+    "location": false,
     "fetch": false,
     "window": false,
     "navigator": false,
@@ -43,6 +44,7 @@ module.exports = {
     "no-restricted-globals": 0,
     "react/forbid-prop-types": 0,
     "import/no-extraneous-dependencies": ["error", {"devDependencies": [
+      "src/raven.js",
       "**/*.test.js",
       "tests/**/*.js",
       "**/*.stories.js"

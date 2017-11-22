@@ -1,7 +1,5 @@
 // @flow
 import moment from 'moment'
-import cloneDeep from 'lodash/cloneDeep'
-import navData from '../common/nav'
 
 export function fixedZero(val: number) {
   return val * 1 < 10 ? `0${val}` : val
@@ -60,7 +58,7 @@ export function getTimeDistance(type: string) {
   return []
 }
 
-function getPlainNode(nodeList: any, parentPath: string = ''): Object[] {
+export function getPlainNode(nodeList: Object[], parentPath: string = '') {
   const arr = []
   nodeList.forEach(node => {
     const item = node
@@ -76,18 +74,6 @@ function getPlainNode(nodeList: any, parentPath: string = ''): Object[] {
     }
   })
   return arr
-}
-
-export function getRouteData(path: string): any {
-  if (
-    !navData.some(item => item.layout === path) ||
-    !navData.filter(item => item.layout === path)[0].children
-  ) {
-    return null
-  }
-  const dataList = cloneDeep(navData.filter(item => item.layout === path)[0])
-  const nodeList = getPlainNode(dataList.children)
-  return nodeList
 }
 
 export function digitUppercase(n: number) {

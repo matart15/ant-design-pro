@@ -1,8 +1,8 @@
 // @flow
 import dva from 'dva'
 import 'moment/locale/zh-cn'
-import models from './models'
 import './polyfill'
+import './raven'
 import './g2'
 // import { browserHistory } from 'dva/router';
 import './index.less'
@@ -16,14 +16,8 @@ const app = dva({
 // 2. Plugins
 // app.use({});
 
-// 3. Model move to router
-models.forEach(m => {
-  if (m.namespace) {
-    app.model(m)
-  } else {
-    app.model(m.default)
-  }
-})
+// 3. Register global model
+app.model(require('./models/global'))
 
 // 4. Router
 app.router(router)

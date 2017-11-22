@@ -155,8 +155,12 @@ export default class Workplace extends PureComponent<Props> {
           />
         </div>
         <div className={styles.content}>
-          <p className={styles.contentTitle}>早安，曲丽丽，祝你开心每一天！</p>
-          <p>交互专家 | 蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED</p>
+          <div className={styles.contentTitle}>
+            早安，曲丽丽，祝你开心每一天！
+          </div>
+          <div>
+            交互专家 | 蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED
+          </div>
         </div>
       </div>
     )

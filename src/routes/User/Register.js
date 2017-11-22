@@ -22,9 +22,9 @@ const { Option } = Select
 const InputGroup = Input.Group
 
 const passwordStatusMap = {
-  ok: <p className={styles.success}>强度：强</p>,
-  pass: <p className={styles.warning}>强度：中</p>,
-  pool: <p className={styles.error}>强度：太短</p>
+  ok: <div className={styles.success}>强度：强</div>,
+  pass: <div className={styles.warning}>强度：中</div>,
+  pool: <div className={styles.error}>强度：太短</div>
 }
 
 const passwordProgressMap = {
@@ -179,9 +179,9 @@ export default class Register extends Component<Props, State> {
                 <div style={{ padding: '4px 0' }}>
                   {passwordStatusMap[this.getPasswordStatus()]}
                   {this.renderPasswordProgress()}
-                  <p style={{ marginTop: 10 }}>
+                  <div style={{ marginTop: 10 }}>
                     请至少输入 6 个字符。请不要使用容易被猜到的密码。
-                  </p>
+                  </div>
                 </div>
               }
               overlayStyle={{ width: 240 }}
